@@ -8,9 +8,12 @@
     <meta content="Technical Excellence. Track your IoT hardware kits with track BFIOT." name="description" />
 
     <!-- Style Sheet & Fonts -->
-    <link href="index.css" rel="stylesheet" />
-    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;700;800&family=JetBrains+Mono:wght@500&family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap" rel="stylesheet" />
-    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet" />
+    <link href="index.css?v=1.0.3" rel="stylesheet" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;700;800&family=JetBrains+Mono:wght@500&family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap"
+        rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
+        rel="stylesheet" />
 </head>
 
 <body>
@@ -31,13 +34,16 @@
 
     <!-- Main Content Panel -->
     <main>
-        <div class="grid-pattern" style="position: absolute; inset: 0; z-index: -10; opacity: 0.6; pointer-events: none;"></div>
-        
-        <img alt="" style="position: absolute; bottom: -100px; left: -100px; opacity: 0.05; filter: blur(6px); pointer-events: none; z-index: -10; rotate: -15deg; max-width: 450px;" src="https://lh3.googleusercontent.com/aida/AP1WRLt_njWJPNANqsuG-ToivanObk6N4dkonuJvoytI8zxBJ_K4py168hH9D2S2-jZpPyl-i5PEbCfFmZqri8CdUqDiebzW6tvbU31kdIQGbVzklu4FvgB_8H_bUXP_Ko3BtUAsM5ZIVQ2tDx7RdbJWGw_w9VO1l68DTtA5mejEzbeH0BD8lD-G1eEEF7ktbWedVE_PoMu3VrxZv_N7dwT5XMCw_w0Z8x94PstV5Wp386jZ_VMa7LMh0g_6o80" />
+        <div class="grid-pattern"
+            style="position: absolute; inset: 0; z-index: -10; opacity: 0.6; pointer-events: none;"></div>
+
+        <img alt=""
+            style="position: absolute; bottom: -100px; left: -100px; opacity: 0.05; filter: blur(6px); pointer-events: none; z-index: -10; rotate: -15deg; max-width: 450px;"
+            src="https://lh3.googleusercontent.com/aida/AP1WRLt_njWJPNANqsuG-ToivanObk6N4dkonuJvoytI8zxBJ_K4py168hH9D2S2-jZpPyl-i5PEbCfFmZqri8CdUqDiebzW6tvbU31kdIQGbVzklu4FvgB_8H_bUXP_Ko3BtUAsM5ZIVQ2tDx7RdbJWGw_w9VO1l68DTtA5mejEzbeH0BD8lD-G1eEEF7ktbWedVE_PoMu3VrxZv_N7dwT5XMCw_w0Z8x94PstV5Wp386jZ_VMa7LMh0g_6o80" />
 
         <!-- Dashboard Wrapper -->
         <div class="dashboard-container" id="dashboardContainer">
-            
+
             <!-- Hero Header Info -->
             <section class="hero">
                 <div class="live-badge">
@@ -56,7 +62,8 @@
                     <div class="search-icon-label">
                         <span class="material-symbols-outlined">local_shipping</span>
                     </div>
-                    <input class="search-input" id="trackingInput" placeholder="Enter Consignment Number (e.g., BF-ESP32-9876)" type="text" />
+                    <input class="search-input" id="trackingInput"
+                        placeholder="Enter Consignment Number (e.g., BF-ESP32-9876)" type="text" />
                     <button class="btn btn-primary search-button" onclick="performTracking()">
                         Track Now
                         <span class="material-symbols-outlined" style="font-size: 18px;">arrow_forward</span>
@@ -117,7 +124,7 @@
             </section>
 
         </div>
-        
+
         <div class="footer-credits">
             © 2026 track BFIOT. Technical Excellence for Beginners.
         </div>
@@ -141,7 +148,7 @@
             }
         }
 
-        const savedTheme = localStorage.getItem('theme') || 
+        const savedTheme = localStorage.getItem('theme') ||
             (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
         setTheme(savedTheme);
 
@@ -205,7 +212,7 @@
             const container = document.getElementById('dashboardContainer');
             const displayId = document.getElementById('displayConsignment');
             const timelineContainer = document.getElementById('timelineContainer');
-            
+
             const metaCourier = document.getElementById('metaCourier');
             const metaStatus = document.getElementById('metaStatus');
             const metaWeight = document.getElementById('metaWeight');
@@ -239,7 +246,7 @@
             if (mockTrackingData[trackingNumber]) {
                 setTimeout(() => {
                     renderTimeline(mockTrackingData[trackingNumber]);
-                }, 1000);
+                }, 800);
                 return;
             }
 
@@ -253,7 +260,7 @@
                     metaStatus.innerText = 'Sync Interrupted';
                     metaWeight.innerText = '---';
                     metaEstDelivery.innerText = '---';
-                }, 1000);
+                }, 800);
                 return;
             }
 
@@ -309,7 +316,7 @@
             metaEstDelivery.innerText = data.estDelivery;
 
             timelineContainer.innerHTML = '';
-            
+
             data.events.forEach(event => {
                 const stateClass = event.current ? 'active' : (event.completed ? 'completed' : '');
                 const stepHTML = `
