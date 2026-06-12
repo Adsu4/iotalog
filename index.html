@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html class="scroll-smooth" lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>IOTA-LOG | Premium IoT Logistics Tracking</title>
+    <meta content="Technical Excellence for Beginners. Track your IoT hardware kits with IOTA-LOG."
+        name="description" />
+
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;700;800&family=JetBrains+Mono:wght@500&family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap"
+        rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
+        rel="stylesheet" />
+
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "surface-container-high": "#e1e7ff",
+                        "surface-bright": "#faf8ff",
+                        "surface": "#faf8ff",
+                        "on-primary-fixed": "#0b006b",
+                        "primary-container": "#2f24cd",
+                        "surface-container-highest": "#dae2fc",
+                        "on-surface-variant": "#464555",
+                        "error-red": "#ba1a1a",
+                        "outline-variant": "#c7c4d8",
+                        "on-surface": "#131b2e",
+                        "secondary": "#4648d4",
+                        "surface-container-low": "#f2f3ff",
+                        "surface-container": "#eaedff",
+                        "on-background": "#131b2e",
+                        "background": "#faf8ff",
+                        "primary": "#1800a8",
+                        "surface-variant": "#dae2fc",
+                        "on-primary": "#ffffff"
+                    },
+                    "fontFamily": {
+                        "body-lg": ["Manrope"],
+                        "label-mono": ["JetBrains Mono"],
+                        "display-lg": ["Manrope"],
+                        "headline-lg": ["Manrope"],
+                        "display-lg-mobile": ["Manrope"],
+                        "body-md": ["Manrope"],
+                        "serif-accent": ["Playfair Display"],
+                        "headline-md": ["Manrope"]
+                    },
+                    "fontSize": {
+                        "body-lg": ["18px", { "lineHeight": "1.6", "fontWeight": "400" }],
+                        "label-mono": ["12px", { "lineHeight": "1.0", "letterSpacing": "0.1em", "fontWeight": "500" }],
+                        "display-lg": ["72px", { "lineHeight": "1.1", "letterSpacing": "-0.04em", "fontWeight": "800" }],
+                        "headline-lg": ["48px", { "lineHeight": "1.2", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                        "display-lg-mobile": ["40px", { "lineHeight": "1.2", "letterSpacing": "-0.02em", "fontWeight": "800" }],
+                        "body-md": ["16px", { "lineHeight": "1.5", "fontWeight": "400" }],
+                        "serif-accent": ["inherit", { "fontWeight": "400" }],
+                        "headline-md": ["32px", { "lineHeight": "1.3", "fontWeight": "700" }]
+                    },
+                    "spacing": {
+                        "section-gap": "120px",
+                        "gutter": "24px",
+                        "grid-unit": "8px",
+                        "margin-x": "32px",
+                        "container-max": "1280px"
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .grid-pattern {
+            background-image: linear-gradient(to right, #eaedff 1px, transparent 1px),
+                linear-gradient(to bottom, #eaedff 1px, transparent 1px);
+            background-size: 40px 40px;
+        }
+
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+
+        .bento-shadow {
+            box-shadow: 0 4px 24px -2px rgba(11, 0, 107, 0.05);
+        }
+
+        @keyframes pulse-soft {
+
+            0%,
+            100% {
+                transform: scale(1);
+                opacity: 1;
+            }
+
+            50% {
+                transform: scale(1.1);
+                opacity: 0.7;
+            }
+        }
+
+        .animate-pulse-soft {
+            animation: pulse-soft 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+        }
+    </style>
+</head>
+
+<body class="bg-surface font-body-md text-on-surface">
+
+    <header class="bg-surface/80 backdrop-blur-md border-b border-outline-variant/30 shadow-sm top-0 sticky z-50 h-20">
+        <div class="flex justify-between items-center max-w-container-max mx-auto px-margin-x h-full">
+            <div class="font-display-lg-mobile text-display-lg-mobile font-extrabold text-primary tracking-tighter">
+                IOTA-LOG</div>
+            <nav class="hidden md:flex items-center gap-8">
+                <a class="text-on-surface-variant hover:text-primary transition-colors font-body-md" href="#">Kits</a>
+                <a class="text-primary font-bold border-b-2 border-primary pb-1 font-body-md" href="#">Tracking</a>
+                <a class="text-on-surface-variant hover:text-primary transition-colors font-body-md"
+                    href="#">Support</a>
+                <a class="text-on-surface-variant hover:text-primary transition-colors font-body-md"
+                    href="#">Account</a>
+            </nav>
+            <button
+                class="bg-primary text-on-primary font-bold px-6 py-2.5 rounded-full hover:opacity-80 active:scale-95 transition-all font-body-md">
+                Sign In
+            </button>
+        </div>
+    </header>
+
+    <main class="relative">
+        <div class="absolute top-0 left-0 w-full h-[800px] grid-pattern -z-10 opacity-60"></div>
+        <img alt=""
+            class="absolute -top-40 -right-40 w-[600px] h-[600px] opacity-10 blur-sm pointer-events-none -z-10 rotate-12"
+            src="https://lh3.googleusercontent.com/aida/AP1WRLt_njWJPNANqsuG-ToivanObk6N4dkonuJvoytI8zxBJ_K4py168hH9D2S2-jZpPyl-i5PEbCfFmZqri8CdUqDiebzW6tvbU31kdIQGbVzklu4FvgB_8H_bUXP_Ko3BtUAsM5ZIVQ2tDx7RdbJWGw_w9VO1l68DTtA5mejEzbeH0BD8lD-G1eEEF7ktbWedVE_PoMu3VrxZv_N7dwT5XMCw_w0Z8x94PstV5Wp386jZ_VMa7LMh0g_6o80" />
+
+        <section class="max-w-container-max mx-auto px-margin-x pt-24 pb-16 text-center">
+            <div
+                class="inline-flex items-center gap-2 bg-primary/10 border border-primary/20 px-3 py-1 rounded-full mb-8">
+                <span class="w-2 h-2 rounded-full bg-primary animate-pulse"></span>
+                <span class="font-label-mono text-label-mono text-primary uppercase">Live Logistics Network</span>
+            </div>
+            <h1 class="font-serif-accent text-headline-lg md:text-display-lg text-on-surface mb-12">
+                Track your journey <span class="italic font-serif-accent text-primary">into IoT.</span>
+            </h1>
+            <div class="max-w-2xl mx-auto relative group">
+                <div
+                    class="absolute -inset-1 bg-gradient-to-r from-primary/20 to-secondary/20 rounded-full blur opacity-25 group-focus-within:opacity-50 transition duration-500">
+                </div>
+                <div
+                    class="relative flex items-center bg-white border border-border-subtle rounded-full p-2 bento-shadow">
+                    <span class="material-symbols-outlined ml-4 text-outline-variant">local_shipping</span>
+                    <input
+                        class="flex-grow px-4 py-4 bg-transparent border-none focus:ring-0 focus:outline-none font-body-md text-on-surface placeholder:text-on-surface-variant/50"
+                        id="trackingInput" placeholder="Enter Consignment Number (e.g., RT123456789IN)" type="text" />
+                    <button
+                        class="bg-primary text-on-primary font-bold px-8 py-4 rounded-full flex items-center gap-2 hover:translate-y-[-2px] hover:shadow-lg transition-all"
+                        onclick="simulateTracking()">
+                        Track Now
+                        <span class="material-symbols-outlined text-[20px]">arrow_forward</span>
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <section
+            class="max-w-4xl mx-auto px-margin-x pb-section-gap opacity-0 translate-y-8 transition-all duration-700 pointer-events-none"
+            id="trackingResult">
+            <div class="bg-white border border-outline-variant/30 rounded-xl p-8 bento-shadow">
+                <div
+                    class="flex flex-col md:flex-row justify-between items-start md:items-center border-b border-outline-variant/30 pb-8 mb-8 gap-4">
+                    <div>
+                        <p class="font-label-mono text-label-mono text-on-surface-variant uppercase mb-1">Consignment ID
+                        </p>
+                        <h2 class="font-headline-md text-headline-md text-on-surface" id="displayConsignment">---</h2>
+                    </div>
+                    <div class="text-left md:text-right">
+                        <p class="font-label-mono text-label-mono text-on-surface-variant uppercase mb-1">Network Status
+                        </p>
+                        <div class="flex items-center gap-2 text-primary font-bold text-body-lg">
+                            <span class="material-symbols-outlined">autostop</span>
+                            Real-Time Sync Active
+                        </div>
+                    </div>
+                </div>
+
+                <div id="timelineContainer" class="space-y-0">
+                </div>
+            </div>
+        </section>
+
+        <section class="max-w-container-max mx-auto px-margin-x pb-section-gap">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-gutter">
+                <div
+                    class="bg-white border border-outline-variant/30 p-8 rounded-xl bento-shadow flex flex-col justify-between hover:border-primary/30 transition-all group">
+                    <div>
+                        <span class="font-label-mono text-label-mono text-primary mb-4 block">REAL-TIME TELEMETRY</span>
+                        <h3 class="font-headline-md text-headline-md text-on-surface mb-4">Precision Logistics</h3>
+                        <p class="text-on-surface-variant text-body-md">Every hardware component is tracked using our
+                            proprietary IOTA nodes, ensuring zero-loss delivery cycles.</p>
+                    </div>
+                    <div class="mt-8 flex justify-end">
+                        <div
+                            class="w-12 h-12 rounded-full bg-surface-container flex items-center justify-center group-hover:bg-primary group-hover:text-white transition-colors">
+                            <span class="material-symbols-outlined">query_stats</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div
+                    class="bg-primary text-on-primary p-8 rounded-xl bento-shadow md:col-span-1 flex flex-col justify-between overflow-hidden relative group">
+                    <div class="relative z-10">
+                        <span class="font-label-mono text-label-mono text-primary-fixed mb-4 block">KIT INVENTORY</span>
+                        <h3 class="font-headline-md text-headline-md mb-4">ESP32 Ready.</h3>
+                        <p class="text-on-primary/80 text-body-md">Our warehouse currently holds units ready for instant
+                            global dispatch. High-fidelity hardware, beginner-friendly setup.</p>
+                    </div>
+                    <div class="mt-8 relative z-10">
+                        <button class="flex items-center gap-2 font-bold hover:underline">
+                            View Specs <span class="material-symbols-outlined">open_in_new</span>
+                        </button>
+                    </div>
+                </div>
+
+                <div
+                    class="bg-white border border-outline-variant/30 p-8 rounded-xl bento-shadow flex flex-col justify-between hover:border-primary/30 transition-all group">
+                    <div>
+                        <span class="font-label-mono text-label-mono text-primary mb-4 block">GLOBAL ACCESS</span>
+                        <h3 class="font-headline-md text-headline-md text-on-surface mb-4">India Post Sync</h3>
+                        <p class="text-on-surface-variant text-body-md">Direct integration with India Post networks for
+                            seamless tracking across all 1.5 lakh post offices.</p>
+                    </div>
+                    <div class="mt-8 flex justify-end">
+                        <div
+                            class="w-12 h-12 rounded-full bg-surface-container flex items-center justify-center group-hover:bg-primary group-hover:text-white transition-colors">
+                            <span class="material-symbols-outlined">lan</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="bg-surface-container border-t border-outline-variant/30">
+        <div
+            class="max-w-container-max mx-auto px-margin-x py-16 flex flex-col md:flex-row justify-between items-center gap-grid-unit">
+            <div class="flex flex-col items-center md:items-start gap-4 mb-8 md:mb-0">
+                <div class="font-headline-md text-headline-md font-bold text-on-surface">IOTA-LOG</div>
+                <p class="text-on-surface-variant font-body-md text-body-md text-center md:text-left max-w-xs">
+                    © 2026 IOTA Logistics. Technical Excellence for Beginners.
+                </p>
+            </div>
+            <div class="flex flex-wrap justify-center gap-8">
+                <a class="text-on-surface-variant hover:text-primary transition-all hover:underline font-body-md"
+                    href="#">Hardware Specs</a>
+                <a class="text-on-surface-variant hover:text-primary transition-all hover:underline font-body-md"
+                    href="#">API Access</a>
+                <a class="text-on-surface-variant hover:text-primary transition-all hover:underline font-body-md"
+                    href="#">Privacy Policy</a>
+                <a class="text-on-surface-variant hover:text-primary transition-all hover:underline font-body-md"
+                    href="#">Contact Support</a>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        async function simulateTracking() {
+            const input = document.getElementById('trackingInput');
+            const result = document.getElementById('trackingResult');
+            const displayId = document.getElementById('displayConsignment');
+            const timelineContainer = document.getElementById('timelineContainer');
+
+            const trackingNumber = input.value.trim().toUpperCase();
+
+            if (trackingNumber === '') {
+                alert('Please enter a consignment number');
+                return;
+            }
+
+            // 1. UI Feedback: Show loading state immediately
+            displayId.innerText = trackingNumber;
+            timelineContainer.innerHTML = `
+                <div class="py-12 flex flex-col justify-center items-center">
+                    <span class="w-10 h-10 border-4 border-primary border-t-transparent rounded-full animate-spin"></span>
+                    <span class="mt-4 text-primary font-label-mono uppercase tracking-widest">Pinging India Post Network...</span>
+                </div>
+            `;
+
+            result.classList.remove('opacity-0', 'translate-y-8', 'pointer-events-none');
+            result.classList.add('opacity-100', 'translate-y-0');
+
+            setTimeout(() => {
+                result.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            }, 300);
+
+            try {
+                // 2. Fetch from Vercel Serverless Function
+                const response = await fetch('/api/track', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ trackingNumber })
+                });
+
+                const data = await response.json();
+
+                // 3. Error Handling if tracking number is invalid or not found
+                if (data.meta.code !== 200 || !data.data || !data.data.origin_info || !data.data.origin_info.trackinfo) {
+                    timelineContainer.innerHTML = `
+                        <div class="py-6 mt-4 text-error-red font-body-md border-l-4 border-error-red pl-4 bg-error-red/10 rounded-r">
+                            Tracking data not found. If this kit was just dispatched, please allow 12-24 hours for the India Post nodes to update.
+                        </div>`;
+                    return;
+                }
+
+                // 4. Extract the transit history array
+                const trackInfo = data.data.origin_info.trackinfo;
+                timelineContainer.innerHTML = ''; // Clear the loading spinner
+
+                // 5. Dynamically generate the timeline using custom Tailwind components
+                trackInfo.forEach((event, index) => {
+                    const isLatest = index === 0;
+                    const isLast = index === trackInfo.length - 1;
+
+                    // Format TrackingMore's Date (YYYY-MM-DD HH:MM) to look cleaner
+                    const eventDate = new Date(event.Date).toLocaleString('en-IN', {
+                        month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit'
+                    }).toUpperCase();
+
+                    const stepHTML = `
+                    <div class="relative pl-12 ${isLast ? '' : 'pb-10'}">
+                        ${!isLast ? `<div class="absolute left-[7px] top-0 bottom-0 w-[2px] ${isLatest ? 'bg-outline-variant/30' : 'bg-primary'}"></div>` : ''}
+                        <div class="absolute left-0 top-0 w-4 h-4 rounded-full bg-primary ${isLatest ? 'border-4 border-surface-container-high animate-pulse-soft' : ''}"></div>
+                        <div>
+                            <p class="font-label-mono text-label-mono ${isLatest ? 'text-primary font-bold' : 'text-on-surface-variant'} mb-1">${eventDate}</p>
+                            <h3 class="font-headline-md text-body-lg font-bold text-on-surface mb-2">${event.StatusDescription || 'Update'}</h3>
+                            <p class="text-on-surface-variant text-body-md">${event.Details}</p>
+                        </div>
+                    </div>`;
+
+                    timelineContainer.insertAdjacentHTML('beforeend', stepHTML);
+                });
+
+            } catch (error) {
+                timelineContainer.innerHTML = `
+                    <div class="py-6 mt-4 text-error-red font-body-md border-l-4 border-error-red pl-4 bg-error-red/10 rounded-r">
+                        Network sync failed. Please check your internet connection or try again later.
+                    </div>`;
+            }
+        }
+
+        // Handle Enter key for input
+        document.getElementById('trackingInput').addEventListener('keypress', function (e) {
+            if (e.key === 'Enter') {
+                simulateTracking();
+            }
+        });
+    </script>
+</body>
+
+</html>
