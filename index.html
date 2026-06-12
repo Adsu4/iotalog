@@ -87,7 +87,7 @@
                     </div>
 
                     <!-- Cargo Info Details -->
-                    <div class="metadata-grid">
+                    <div class="metadata-grid" style="grid-template-columns: repeat(2, 1fr);">
                         <div class="metadata-item">
                             <span class="meta-label">Courier</span>
                             <span class="meta-val" id="metaCourier">India Post</span>
@@ -97,12 +97,20 @@
                             <span class="meta-val" id="metaStatus">---</span>
                         </div>
                         <div class="metadata-item">
-                            <span class="meta-label">Weight</span>
-                            <span class="meta-val" id="metaWeight">---</span>
+                            <span class="meta-label">Booked At</span>
+                            <span class="meta-val" id="metaBookedAt">---</span>
                         </div>
                         <div class="metadata-item">
-                            <span class="meta-label">Est. Delivery</span>
-                            <span class="meta-val" id="metaEstDelivery">---</span>
+                            <span class="meta-label">Booked On</span>
+                            <span class="meta-val" id="metaBookedOn">---</span>
+                        </div>
+                        <div class="metadata-item">
+                            <span class="meta-label">Destination</span>
+                            <span class="meta-val" id="metaDestination">---</span>
+                        </div>
+                        <div class="metadata-item">
+                            <span class="meta-label">Pincodes</span>
+                            <span class="meta-val" id="metaPincodes">---</span>
                         </div>
                     </div>
 
@@ -165,8 +173,10 @@
 
             const metaCourier = document.getElementById('metaCourier');
             const metaStatus = document.getElementById('metaStatus');
-            const metaWeight = document.getElementById('metaWeight');
-            const metaEstDelivery = document.getElementById('metaEstDelivery');
+            const metaBookedAt = document.getElementById('metaBookedAt');
+            const metaBookedOn = document.getElementById('metaBookedOn');
+            const metaDestination = document.getElementById('metaDestination');
+            const metaPincodes = document.getElementById('metaPincodes');
 
             const trackingNumber = input.value.trim().toUpperCase();
 
@@ -181,8 +191,10 @@
 
             displayId.innerText = trackingNumber;
             metaStatus.innerText = 'Synchronizing...';
-            metaWeight.innerText = 'Calculating...';
-            metaEstDelivery.innerText = 'Pinging...';
+            metaBookedAt.innerText = 'Pinging...';
+            metaBookedOn.innerText = 'Pinging...';
+            metaDestination.innerText = 'Pinging...';
+            metaPincodes.innerText = 'Pinging...';
             metaCourier.innerText = 'India Post';
 
             timelineContainer.innerHTML = `
@@ -202,29 +214,52 @@
 
                 const data = await response.json();
 
-                if (data.meta && data.meta.code === 200 && data.data && data.data.length > 0 && data.data[0].origin_info && data.data[0].origin_info.trackinfo) {
-                    const trackInfo = data.data[0].origin_info.trackinfo;
+                if (data.meta && data.meta.code === 200 && data.data && data.data.length > 0) {
+                    const trackInfo = data.data[0].origin_info?.trackinfo || [];
+                    
+                    if (!trackInfo || trackInfo.length === 0) {
+                        showError("Tracking data pending. Please allow 12 hours for India Post to sync.");
+                        return;
+                    }
+
+                    const rawStatus = data.data[0].status || 'transit';
+                    const formattedStatus = rawStatus.charAt(0).toUpperCase() + rawStatus.slice(1);
+
+                    // Extract Booking Data from the oldest event (last in array)
+                    const oldestEvent = trackInfo[trackInfo.length - 1];
+                    let bookedAt = oldestEvent?.location || 'Unknown';
+                    let bookedOn = 'Unknown';
+                    if (oldestEvent?.checkpoint_date) {
+                        const dateStr = oldestEvent.checkpoint_date.replace(' ', 'T');
+                        bookedOn = new Date(dateStr).toLocaleString('en-IN', {
+                            month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit'
+                        }).toUpperCase();
+                    }
+
                     const parsedData = {
                         courier: 'India Post',
-                        status: data.data[0].status || 'In Transit',
-                        weight: 'Unknown',
-                        estDelivery: 'Unknown',
+                        status: formattedStatus,
+                        bookedAt: bookedAt,
+                        bookedOn: bookedOn,
+                        destination: 'Auto-Detecting',
+                        pincodes: 'Embedded in Timeline',
                         events: trackInfo.map((event, index) => {
-                            const eventDate = new Date(event.checkpoint_date).toLocaleString('en-IN', {
+                            const dateStr = event.checkpoint_date ? event.checkpoint_date.replace(' ', 'T') : '';
+                            const eventDate = dateStr ? new Date(dateStr).toLocaleString('en-IN', {
                                 month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit'
-                            }).toUpperCase();
+                            }).toUpperCase() : 'Unknown';
                             return {
                                 time: eventDate,
                                 title: event.tracking_detail || 'Update Processed',
                                 details: event.location || 'India Post Network',
                                 current: index === 0,
-                                completed: data.data[0].status === 'delivered'
+                                completed: rawStatus === 'delivered'
                             };
                         })
                     };
                     renderTimeline(parsedData);
                 } else {
-                    const errorMsg = data.meta?.message || data.error || "Tracking data not found. Please allow 12 hours for India Post nodes to sync.";
+                    const errorMsg = data.meta?.message || data.error || "Tracking data not found. Please check your tracking number.";
                     showError(errorMsg);
                 }
             } catch (error) {
@@ -234,15 +269,12 @@
 
         function renderTimeline(data) {
             const timelineContainer = document.getElementById('timelineContainer');
-            const metaCourier = document.getElementById('metaCourier');
-            const metaStatus = document.getElementById('metaStatus');
-            const metaWeight = document.getElementById('metaWeight');
-            const metaEstDelivery = document.getElementById('metaEstDelivery');
-
-            metaCourier.innerText = data.courier;
-            metaStatus.innerText = data.status;
-            metaWeight.innerText = data.weight;
-            metaEstDelivery.innerText = data.estDelivery;
+            document.getElementById('metaCourier').innerText = data.courier;
+            document.getElementById('metaStatus').innerText = data.status;
+            document.getElementById('metaBookedAt').innerText = data.bookedAt;
+            document.getElementById('metaBookedOn').innerText = data.bookedOn;
+            document.getElementById('metaDestination').innerText = data.destination;
+            document.getElementById('metaPincodes').innerText = data.pincodes;
 
             timelineContainer.innerHTML = '';
 
@@ -264,17 +296,16 @@
 
         function showError(message) {
             const timelineContainer = document.getElementById('timelineContainer');
-            const metaStatus = document.getElementById('metaStatus');
-            const metaWeight = document.getElementById('metaWeight');
-            const metaEstDelivery = document.getElementById('metaEstDelivery');
             
             timelineContainer.innerHTML = `
                 <div class="error-message" style="margin-top: 10px;">
-                    <strong>Error:</strong> ${message}
+                    <strong>Notice:</strong> ${message}
                 </div>`;
-            metaStatus.innerText = 'Sync Interrupted';
-            metaWeight.innerText = '---';
-            metaEstDelivery.innerText = '---';
+            document.getElementById('metaStatus').innerText = 'Sync Interrupted';
+            document.getElementById('metaBookedAt').innerText = '---';
+            document.getElementById('metaBookedOn').innerText = '---';
+            document.getElementById('metaDestination').innerText = '---';
+            document.getElementById('metaPincodes').innerText = '---';
         }
 
         // Handle Enter key for search input
