@@ -70,14 +70,7 @@
                 </div>
             </div>
 
-            <!-- Simulation Demo Tags -->
-            <div class="quick-samples" id="quickSamples">
-                <span>Demo Tags:</span>
-                <span class="sample-chip" onclick="fillAndTrack('BF-ESP32-9876')">BF-ESP32-9876 (Transit)</span>
-                <span class="sample-chip" onclick="fillAndTrack('BF-IOTA-1234')">BF-IOTA-1234 (Delivered)</span>
-                <span class="sample-chip" onclick="fillAndTrack('BF-NODE-5432')">BF-NODE-5432 (Dispatched)</span>
-                <span class="sample-chip" onclick="fillAndTrack('BF-ERR-8888')">BF-ERR-8888 (Error)</span>
-            </div>
+
 
             <!-- Scrollable Timeline Results Card -->
             <section class="results-section" id="trackingResult">
@@ -155,48 +148,7 @@
             setTheme(currentTheme);
         });
 
-        // --- 2. Interactive Simulations Data Sets ---
-        const mockTrackingData = {
-            'BF-ESP32-9876': {
-                courier: 'India Post',
-                status: 'In Transit',
-                weight: '450 grams',
-                estDelivery: 'June 15, 2026',
-                events: [
-                    { time: 'JUNE 12, 04:30 PM', title: 'Out for Local Node Delivery', details: 'Assigned to logistics delivery agent at Bangalore Sorting Office Hub.', current: true },
-                    { time: 'JUNE 11, 10:15 AM', title: 'Processed at Sorting Center', details: 'Package arrived at regional sorting hub and passed barcode validation.', current: false },
-                    { time: 'JUNE 10, 02:40 PM', title: 'Dispatched from Origin Hub', details: 'Transited through sorting terminal nodes towards destination hub.', current: false },
-                    { time: 'JUNE 09, 11:00 AM', title: 'BFIOT Labs Pickup Confirmed', details: 'IoT package has been picked up from laboratory storage racks.', current: false }
-                ]
-            },
-            'BF-IOTA-1234': {
-                courier: 'India Post (Express)',
-                status: 'Delivered',
-                weight: '320 grams',
-                estDelivery: 'Delivered (June 11)',
-                events: [
-                    { time: 'JUNE 11, 01:15 PM', title: 'Delivered', details: 'Successfully delivered to receiver. Signed by recipient (Hardware Admin).', current: true, completed: true },
-                    { time: 'JUNE 11, 09:00 AM', title: 'Out for Delivery', details: 'Dispatched from final post office node to delivery address.', current: false, completed: true },
-                    { time: 'JUNE 10, 03:50 PM', title: 'Arrived at Destination Facility', details: 'Package logged at final post office sorting center.', current: false, completed: true },
-                    { time: 'JUNE 08, 08:30 AM', title: 'Shipping Info Transmitted', details: 'IoT package metadata synchronized with the India Post tracking network.', current: false, completed: true }
-                ]
-            },
-            'BF-NODE-5432': {
-                courier: 'India Post',
-                status: 'Dispatched',
-                weight: '680 grams',
-                estDelivery: 'June 19, 2026',
-                events: [
-                    { time: 'JUNE 12, 10:00 AM', title: 'Dispatched from Laboratory Center', details: 'Shipment has departed the origin warehousing nodes.', current: true },
-                    { time: 'JUNE 11, 05:22 PM', title: 'BFIOT Logistics Label Created', details: 'Hardware kit allocation complete. Package sealed and catalogued.', current: false }
-                ]
-            }
-        };
 
-        function fillAndTrack(code) {
-            document.getElementById('trackingInput').value = code;
-            performTracking();
-        }
 
         function resetTracking() {
             document.getElementById('trackingInput').value = '';
@@ -240,29 +192,7 @@
                 </div>
             `;
 
-            // 1. Mock simulation datasets
-            if (mockTrackingData[trackingNumber]) {
-                setTimeout(() => {
-                    renderTimeline(mockTrackingData[trackingNumber]);
-                }, 800);
-                return;
-            }
-
-            // 2. Mock error codes path
-            if (trackingNumber === 'BF-ERR-8888') {
-                setTimeout(() => {
-                    timelineContainer.innerHTML = `
-                        <div class="error-message">
-                            <strong>Node Outage Simulated (Error 500):</strong> The requested tracking node BF-ERR-8888 responded with a synchronization anomaly. Please retry in a few moments.
-                        </div>`;
-                    metaStatus.innerText = 'Sync Interrupted';
-                    metaWeight.innerText = '---';
-                    metaEstDelivery.innerText = '---';
-                }, 800);
-                return;
-            }
-
-            // 3. Fallback to server endpoint API
+            // Call Server API
             try {
                 const response = await fetch('/api/track', {
                     method: 'POST',
@@ -277,16 +207,16 @@
                     const parsedData = {
                         courier: 'India Post',
                         status: data.data.status || 'In Transit',
-                        weight: '450 grams',
-                        estDelivery: 'Calculated by Hub',
+                        weight: 'Unknown',
+                        estDelivery: 'Unknown',
                         events: trackInfo.map((event, index) => {
-                            const eventDate = new Date(event.Date).toLocaleString('en-IN', {
+                            const eventDate = new Date(event.checkpoint_date || event.Date).toLocaleString('en-IN', {
                                 month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit'
                             }).toUpperCase();
                             return {
                                 time: eventDate,
-                                title: event.StatusDescription || 'Node Registered',
-                                details: event.Details || 'Package checked at sorting facility.',
+                                title: event.tracking_detail || event.StatusDescription || 'Event Registered',
+                                details: event.location || event.Details || '',
                                 current: index === 0,
                                 completed: data.data.status === 'delivered'
                             };
@@ -294,10 +224,10 @@
                     };
                     renderTimeline(parsedData);
                 } else {
-                    generateFallbackMock(trackingNumber);
+                    showError(data.meta?.message || data.error || 'Failed to sync with tracking network.');
                 }
             } catch (error) {
-                generateFallbackMock(trackingNumber);
+                showError('Network error while connecting to tracking API.');
             }
         }
 
@@ -331,21 +261,19 @@
             });
         }
 
-        function generateFallbackMock(trackingNumber) {
-            setTimeout(() => {
-                const randomStatus = ['In Transit', 'Dispatched', 'Out for Delivery'][Math.floor(Math.random() * 3)];
-                const fallbackData = {
-                    courier: 'India Post',
-                    status: randomStatus,
-                    weight: '380 grams',
-                    estDelivery: 'June 18, 2026',
-                    events: [
-                        { time: 'JUNE 12, 02:15 PM', title: 'Package Received at National sorting hub', details: `Consignment node ${trackingNumber} arrived at regional post hub for sorting and dispatch.`, current: true },
-                        { time: 'JUNE 11, 09:30 AM', title: 'Package Dispatched from Lab storage', details: 'Assigned carrier picked up IoT development board kit from BFIOT warehousing center.', current: false }
-                    ]
-                };
-                renderTimeline(fallbackData);
-            }, 800);
+        function showError(message) {
+            const timelineContainer = document.getElementById('timelineContainer');
+            const metaStatus = document.getElementById('metaStatus');
+            const metaWeight = document.getElementById('metaWeight');
+            const metaEstDelivery = document.getElementById('metaEstDelivery');
+            
+            timelineContainer.innerHTML = `
+                <div class="error-message" style="margin-top: 10px;">
+                    <strong>Error:</strong> ${message}
+                </div>`;
+            metaStatus.innerText = 'Sync Interrupted';
+            metaWeight.innerText = '---';
+            metaEstDelivery.innerText = '---';
         }
 
         // Handle Enter key for search input
