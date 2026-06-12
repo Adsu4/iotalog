@@ -202,32 +202,33 @@
 
                 const data = await response.json();
 
-                if (response.ok && data.meta && data.meta.code === 200 && data.data && data.data.origin_info && data.data.origin_info.trackinfo) {
-                    const trackInfo = data.data.origin_info.trackinfo;
+                if (data.meta && data.meta.code === 200 && data.data && data.data.length > 0 && data.data[0].origin_info && data.data[0].origin_info.trackinfo) {
+                    const trackInfo = data.data[0].origin_info.trackinfo;
                     const parsedData = {
                         courier: 'India Post',
-                        status: data.data.status || 'In Transit',
+                        status: data.data[0].status || 'In Transit',
                         weight: 'Unknown',
                         estDelivery: 'Unknown',
                         events: trackInfo.map((event, index) => {
-                            const eventDate = new Date(event.checkpoint_date || event.Date).toLocaleString('en-IN', {
+                            const eventDate = new Date(event.checkpoint_date).toLocaleString('en-IN', {
                                 month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit'
                             }).toUpperCase();
                             return {
                                 time: eventDate,
-                                title: event.tracking_detail || event.StatusDescription || 'Event Registered',
-                                details: event.location || event.Details || '',
+                                title: event.tracking_detail || 'Update Processed',
+                                details: event.location || 'India Post Network',
                                 current: index === 0,
-                                completed: data.data.status === 'delivered'
+                                completed: data.data[0].status === 'delivered'
                             };
                         })
                     };
                     renderTimeline(parsedData);
                 } else {
-                    showError(data.meta?.message || data.error || 'Failed to sync with tracking network.');
+                    const errorMsg = data.meta?.message || data.error || "Tracking data not found. Please allow 12 hours for India Post nodes to sync.";
+                    showError(errorMsg);
                 }
             } catch (error) {
-                showError('Network error while connecting to tracking API.');
+                showError('Network sync failed. Please check your internet connection or try again later.');
             }
         }
 

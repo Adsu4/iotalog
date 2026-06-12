@@ -1,5 +1,4 @@
 export default async function handler(req, res) {
-    // Only allow POST requests
     if (req.method !== 'POST') {
         return res.status(405).json({ error: 'Method not allowed' });
     }
@@ -8,26 +7,23 @@ export default async function handler(req, res) {
     const apiKey = process.env.TRACKINGMORE_API_KEY;
 
     if (!apiKey) {
-        return res.status(500).json({ error: 'API key configuration missing on server.' });
+        return res.status(500).json({ error: 'API key configuration missing.' });
     }
 
     try {
-        const response = await fetch('https://api.trackingmore.com/v4/trackings/realtime', {
-            method: 'POST',
+        // Updated to the official TrackingMore V4 GET endpoint
+        const response = await fetch(`https://api.trackingmore.com/v4/trackings/get?tracking_numbers=${trackingNumber}`, {
+            method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
                 'Tracking-Api-Key': apiKey
-            },
-            body: JSON.stringify({
-                tracking_number: trackingNumber,
-                courier_code: 'india-post'
-            })
+            }
         });
 
         const data = await response.json();
         return res.status(200).json(data);
     } catch (error) {
-        console.error('TrackingMore Error:', error);
-        return res.status(500).json({ error: 'Failed to synchronize with network node.' });
+        console.error('API Error:', error);
+        return res.status(500).json({ error: 'Network sync failed.' });
     }
 }
