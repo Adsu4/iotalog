@@ -114,6 +114,62 @@
                         </div>
                     </div>
 
+                    <!-- Gamified Track -->
+                    <div class="gamified-track-container" id="gamifiedTrack" style="display: none;">
+                        <div class="base-circuit-path">
+                            <div class="dashed-pattern"></div>
+                        </div>
+                        <div class="progress-fill" id="progressFill"></div>
+                        
+                        <div class="nodes-container">
+                            <div class="node-point-wrapper">
+                                <div class="node-point" id="node1">
+                                    <span class="material-symbols-outlined" style="font-size: 14px; color: white; opacity: 0; transition: opacity 0.3s;">check</span>
+                                </div>
+                                <div class="node-label">
+                                    <p>Level 1</p>
+                                    <p>Booked</p>
+                                </div>
+                            </div>
+                            <div class="node-point-wrapper">
+                                <div class="node-point" id="node2">
+                                    <span class="material-symbols-outlined" style="font-size: 14px; color: white; opacity: 0; transition: opacity 0.3s;">check</span>
+                                </div>
+                                <div class="node-label">
+                                    <p>Level 2</p>
+                                    <p>Processed</p>
+                                </div>
+                            </div>
+                            <div class="node-point-wrapper">
+                                <div class="node-point" id="node3">
+                                    <span class="material-symbols-outlined" style="font-size: 14px; color: white; opacity: 0; transition: opacity 0.3s;">check</span>
+                                </div>
+                                <div class="node-label">
+                                    <p>Level 3</p>
+                                    <p>In Transit</p>
+                                </div>
+                            </div>
+                            <div class="node-point-wrapper">
+                                <div class="node-point" id="node4">
+                                    <span class="material-symbols-outlined" style="font-size: 14px; color: white; opacity: 0; transition: opacity 0.3s;">check</span>
+                                </div>
+                                <div class="node-label">
+                                    <p>Level 4</p>
+                                    <p>Delivered</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="delivery-payload" id="deliveryPayload">
+                            <div class="payload-icon-wrapper">
+                                <div class="payload-glow"></div>
+                                <div class="payload-box">
+                                    <span class="material-symbols-outlined">local_shipping</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
                     <!-- Scrollable timeline step list -->
                     <div class="results-body">
                         <div class="timeline" id="timelineContainer">
@@ -162,6 +218,7 @@
             document.getElementById('trackingInput').value = '';
             document.getElementById('dashboardContainer').classList.remove('results-loaded');
             document.getElementById('trackingResult').classList.remove('show');
+            document.getElementById('gamifiedTrack').style.display = 'none';
         }
 
         async function performTracking() {
@@ -278,6 +335,55 @@
 
             timelineContainer.innerHTML = '';
 
+            // --- Gamified Animation Logic ---
+            const gamifiedTrack = document.getElementById('gamifiedTrack');
+            const progressFill = document.getElementById('progressFill');
+            const deliveryPayload = document.getElementById('deliveryPayload');
+            
+            gamifiedTrack.style.display = 'block';
+            
+            // Reset track state
+            progressFill.style.width = '0%';
+            deliveryPayload.style.opacity = '0';
+            deliveryPayload.style.left = '20px';
+            for (let i = 1; i <= 4; i++) {
+                document.getElementById(`node${i}`).classList.remove('node-active');
+            }
+            
+            let targetNode = 1;
+            let targetPercentage = '0%'; 
+            
+            const s = data.status.toLowerCase();
+            if (s.includes('delivered')) {
+                targetNode = 4;
+                targetPercentage = '100%';
+            } else if (s.includes('transit') || s.includes('pickup')) {
+                targetNode = 3;
+                targetPercentage = '66%';
+            } else if (s.includes('pending') || s.includes('notfound')) {
+                targetNode = 1;
+                targetPercentage = '0%';
+            } else {
+                targetNode = 2; // Processed
+                targetPercentage = '33%';
+            }
+            
+            setTimeout(() => {
+                progressFill.style.width = targetPercentage;
+                deliveryPayload.style.opacity = '1';
+                
+                requestAnimationFrame(() => {
+                    deliveryPayload.style.left = `calc(20px + ${targetPercentage} - 16px)`;
+                });
+                
+                for(let i = 1; i <= targetNode; i++) {
+                    setTimeout(() => {
+                        document.getElementById(`node${i}`).classList.add('node-active');
+                    }, i * 400);
+                }
+            }, 300);
+            // --- End Gamified Logic ---
+
             data.events.forEach(event => {
                 const stateClass = event.current ? 'active' : (event.completed ? 'completed' : '');
                 const stepHTML = `
@@ -296,6 +402,7 @@
 
         function showError(message) {
             const timelineContainer = document.getElementById('timelineContainer');
+            document.getElementById('gamifiedTrack').style.display = 'none';
             
             timelineContainer.innerHTML = `
                 <div class="error-message" style="margin-top: 10px;">
