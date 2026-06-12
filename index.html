@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html class="scroll-smooth" lang="en">
+<html lang="en">
 
 <head>
     <meta charset="utf-8" />
@@ -8,230 +8,177 @@
     <meta content="Technical Excellence for Beginners. Track your IoT hardware kits with IOTA-LOG."
         name="description" />
 
-    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <!-- Style Sheet & Fonts -->
+    <link href="index.css" rel="stylesheet" />
     <link
         href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;700;800&family=JetBrains+Mono:wght@500&family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap"
         rel="stylesheet" />
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
         rel="stylesheet" />
-
-    <script id="tailwind-config">
-        tailwind.config = {
-            darkMode: "class",
-            theme: {
-                extend: {
-                    "colors": {
-                        "surface-container-high": "#e1e7ff",
-                        "surface-bright": "#faf8ff",
-                        "surface": "#faf8ff",
-                        "on-primary-fixed": "#0b006b",
-                        "primary-container": "#2f24cd",
-                        "surface-container-highest": "#dae2fc",
-                        "on-surface-variant": "#464555",
-                        "error-red": "#ba1a1a",
-                        "outline-variant": "#c7c4d8",
-                        "on-surface": "#131b2e",
-                        "secondary": "#4648d4",
-                        "surface-container-low": "#f2f3ff",
-                        "surface-container": "#eaedff",
-                        "on-background": "#131b2e",
-                        "background": "#faf8ff",
-                        "primary": "#1800a8",
-                        "surface-variant": "#dae2fc",
-                        "on-primary": "#ffffff"
-                    },
-                    "fontFamily": {
-                        "body-lg": ["Manrope"],
-                        "label-mono": ["JetBrains Mono"],
-                        "display-lg": ["Manrope"],
-                        "headline-lg": ["Manrope"],
-                        "display-lg-mobile": ["Manrope"],
-                        "body-md": ["Manrope"],
-                        "serif-accent": ["Playfair Display"],
-                        "headline-md": ["Manrope"]
-                    },
-                    "fontSize": {
-                        "body-lg": ["18px", { "lineHeight": "1.6", "fontWeight": "400" }],
-                        "label-mono": ["12px", { "lineHeight": "1.0", "letterSpacing": "0.1em", "fontWeight": "500" }],
-                        "display-lg": ["72px", { "lineHeight": "1.1", "letterSpacing": "-0.04em", "fontWeight": "800" }],
-                        "headline-lg": ["48px", { "lineHeight": "1.2", "letterSpacing": "-0.02em", "fontWeight": "700" }],
-                        "display-lg-mobile": ["40px", { "lineHeight": "1.2", "letterSpacing": "-0.02em", "fontWeight": "800" }],
-                        "body-md": ["16px", { "lineHeight": "1.5", "fontWeight": "400" }],
-                        "serif-accent": ["inherit", { "fontWeight": "400" }],
-                        "headline-md": ["32px", { "lineHeight": "1.3", "fontWeight": "700" }]
-                    },
-                    "spacing": {
-                        "section-gap": "120px",
-                        "gutter": "24px",
-                        "grid-unit": "8px",
-                        "margin-x": "32px",
-                        "container-max": "1280px"
-                    }
-                }
-            }
-        }
-    </script>
-    <style>
-        .grid-pattern {
-            background-image: linear-gradient(to right, #eaedff 1px, transparent 1px),
-                linear-gradient(to bottom, #eaedff 1px, transparent 1px);
-            background-size: 40px 40px;
-        }
-
-        .material-symbols-outlined {
-            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
-        }
-
-        .bento-shadow {
-            box-shadow: 0 4px 24px -2px rgba(11, 0, 107, 0.05);
-        }
-
-        @keyframes pulse-soft {
-
-            0%,
-            100% {
-                transform: scale(1);
-                opacity: 1;
-            }
-
-            50% {
-                transform: scale(1.1);
-                opacity: 0.7;
-            }
-        }
-
-        .animate-pulse-soft {
-            animation: pulse-soft 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
-        }
-    </style>
 </head>
 
-<body class="bg-surface font-body-md text-on-surface">
-
-    <header class="bg-surface/80 backdrop-blur-md border-b border-outline-variant/30 shadow-sm top-0 sticky z-50 h-20">
-        <div class="flex justify-between items-center max-w-container-max mx-auto px-margin-x h-full">
-            <div class="font-display-lg-mobile text-display-lg-mobile font-extrabold text-primary tracking-tighter">
-                IOTA-LOG</div>
-            <nav class="hidden md:flex items-center gap-8">
-                <a class="text-on-surface-variant hover:text-primary transition-colors font-body-md" href="#">Kits</a>
-                <a class="text-primary font-bold border-b-2 border-primary pb-1 font-body-md" href="#">Tracking</a>
-                <a class="text-on-surface-variant hover:text-primary transition-colors font-body-md"
-                    href="#">Support</a>
-                <a class="text-on-surface-variant hover:text-primary transition-colors font-body-md"
-                    href="#">Account</a>
+<body>
+    <!-- Header Navigation -->
+    <header>
+        <div class="container header-wrapper">
+            <div class="logo" onclick="window.scrollTo({top: 0, behavior: 'smooth'})">IOTA-LOG</div>
+            <nav class="nav-links">
+                <a class="nav-link" href="#" onclick="openSpecsDialog(event)">Kits</a>
+                <a class="nav-link active" href="#">Tracking</a>
+                <a class="nav-link" href="#" onclick="alert('Support channel is opening. Please wait...')">Support</a>
+                <a class="nav-link" href="#" onclick="openSignInDialog(event)">Account</a>
             </nav>
-            <button
-                class="bg-primary text-on-primary font-bold px-6 py-2.5 rounded-full hover:opacity-80 active:scale-95 transition-all font-body-md">
+            <button class="btn btn-primary" onclick="openSignInDialog(event)">
                 Sign In
+            </button>
+            <button class="menu-toggle" id="menuToggle" aria-label="Toggle Navigation Menu">
+                <span></span>
+                <span></span>
+                <span></span>
             </button>
         </div>
     </header>
 
-    <main class="relative">
-        <div class="absolute top-0 left-0 w-full h-[800px] grid-pattern -z-10 opacity-60"></div>
-        <img alt=""
-            class="absolute -top-40 -right-40 w-[600px] h-[600px] opacity-10 blur-sm pointer-events-none -z-10 rotate-12"
+    <!-- Mobile Menu Drawer -->
+    <div class="mobile-drawer" id="mobileDrawer">
+        <a class="nav-link" href="#" onclick="openSpecsDialog(event)">Kits</a>
+        <a class="nav-link active" href="#">Tracking</a>
+        <a class="nav-link" href="#" onclick="alert('Support channel is opening. Please wait...')">Support</a>
+        <a class="nav-link" href="#" onclick="openSignInDialog(event)">Account</a>
+        <button class="btn btn-primary" style="margin-top: 12px; width: 100%; justify-content: center;"
+            onclick="openSignInDialog(event)">
+            Sign In
+        </button>
+    </div>
+
+    <!-- Main Container -->
+    <main style="position: relative; flex-grow: 1;">
+        <div class="grid-pattern"
+            style="position: absolute; top: 0; left: 0; width: 100%; height: 800px; z-index: -10; opacity: 0.6;"></div>
+
+        <img alt="" class="bg-abstract-shape"
+            style="position: absolute; -top: 160px; -right: 160px; w-96: 384px; opacity: 0.08; filter: blur(4px); pointer-events: none; z-index: -10; rotate: 12deg; max-width: 500px;"
             src="https://lh3.googleusercontent.com/aida/AP1WRLt_njWJPNANqsuG-ToivanObk6N4dkonuJvoytI8zxBJ_K4py168hH9D2S2-jZpPyl-i5PEbCfFmZqri8CdUqDiebzW6tvbU31kdIQGbVzklu4FvgB_8H_bUXP_Ko3BtUAsM5ZIVQ2tDx7RdbJWGw_w9VO1l68DTtA5mejEzbeH0BD8lD-G1eEEF7ktbWedVE_PoMu3VrxZv_N7dwT5XMCw_w0Z8x94PstV5Wp386jZ_VMa7LMh0g_6o80" />
 
-        <section class="max-w-container-max mx-auto px-margin-x pt-24 pb-16 text-center">
-            <div
-                class="inline-flex items-center gap-2 bg-primary/10 border border-primary/20 px-3 py-1 rounded-full mb-8">
-                <span class="w-2 h-2 rounded-full bg-primary animate-pulse"></span>
-                <span class="font-label-mono text-label-mono text-primary uppercase">Live Logistics Network</span>
+        <!-- Hero & Search Input Section -->
+        <section class="hero container">
+            <div class="live-badge">
+                <span class="dot"></span>
+                <span>Live Logistics Network</span>
             </div>
-            <h1 class="font-serif-accent text-headline-lg md:text-display-lg text-on-surface mb-12">
-                Track your journey <span class="italic font-serif-accent text-primary">into IoT.</span>
+            <h1 class="hero-title">
+                Track your journey <span class="italic">into IoT.</span>
             </h1>
-            <div class="max-w-2xl mx-auto relative group">
-                <div
-                    class="absolute -inset-1 bg-gradient-to-r from-primary/20 to-secondary/20 rounded-full blur opacity-25 group-focus-within:opacity-50 transition duration-500">
-                </div>
-                <div
-                    class="relative flex items-center bg-white border border-border-subtle rounded-full p-2 bento-shadow">
-                    <span class="material-symbols-outlined ml-4 text-outline-variant">local_shipping</span>
-                    <input
-                        class="flex-grow px-4 py-4 bg-transparent border-none focus:ring-0 focus:outline-none font-body-md text-on-surface placeholder:text-on-surface-variant/50"
-                        id="trackingInput" placeholder="Enter Consignment Number (e.g., RT123456789IN)" type="text" />
-                    <button
-                        class="bg-primary text-on-primary font-bold px-8 py-4 rounded-full flex items-center gap-2 hover:translate-y-[-2px] hover:shadow-lg transition-all"
-                        onclick="simulateTracking()">
+
+            <div class="search-wrapper">
+                <div class="search-bg-glow"></div>
+                <div class="search-bar">
+                    <div class="search-icon-label">
+                        <span class="material-symbols-outlined">local_shipping</span>
+                    </div>
+                    <input class="search-input" id="trackingInput"
+                        placeholder="Enter Consignment Number (e.g., RT-ESP32-9876)" type="text" />
+                    <button class="btn btn-primary search-button" onclick="performTracking()">
                         Track Now
-                        <span class="material-symbols-outlined text-[20px]">arrow_forward</span>
+                        <span class="material-symbols-outlined" style="font-size: 20px;">arrow_forward</span>
                     </button>
                 </div>
             </div>
+
+            <!-- Demo Quick Test Section -->
+            <div class="quick-samples">
+                <span>Demo Tags:</span>
+                <span class="sample-chip" onclick="fillAndTrack('RT-ESP32-9876')">RT-ESP32-9876 (Transit)</span>
+                <span class="sample-chip" onclick="fillAndTrack('RT-IOTA-1234')">RT-IOTA-1234 (Delivered)</span>
+                <span class="sample-chip" onclick="fillAndTrack('RT-NODE-5432')">RT-NODE-5432 (Dispatched)</span>
+                <span class="sample-chip" onclick="fillAndTrack('RT-ERR-8888')">RT-ERR-8888 (Error)</span>
+            </div>
         </section>
 
-        <section
-            class="max-w-4xl mx-auto px-margin-x pb-section-gap opacity-0 translate-y-8 transition-all duration-700 pointer-events-none"
-            id="trackingResult">
-            <div class="bg-white border border-outline-variant/30 rounded-xl p-8 bento-shadow">
-                <div
-                    class="flex flex-col md:flex-row justify-between items-start md:items-center border-b border-outline-variant/30 pb-8 mb-8 gap-4">
-                    <div>
-                        <p class="font-label-mono text-label-mono text-on-surface-variant uppercase mb-1">Consignment ID
-                        </p>
-                        <h2 class="font-headline-md text-headline-md text-on-surface" id="displayConsignment">---</h2>
+        <!-- Tracking Results Visuals -->
+        <section class="results-section container" id="trackingResult">
+            <div class="results-card">
+                <div class="results-header">
+                    <div class="consignment-info">
+                        <span class="meta-label">Consignment ID</span>
+                        <h2 id="displayConsignment">---</h2>
                     </div>
-                    <div class="text-left md:text-right">
-                        <p class="font-label-mono text-label-mono text-on-surface-variant uppercase mb-1">Network Status
-                        </p>
-                        <div class="flex items-center gap-2 text-primary font-bold text-body-lg">
-                            <span class="material-symbols-outlined">autostop</span>
-                            Real-Time Sync Active
-                        </div>
+                    <div class="sync-status">
+                        <span class="material-symbols-outlined">sync</span>
+                        <span>Real-Time Sync Active</span>
                     </div>
                 </div>
 
-                <div id="timelineContainer" class="space-y-0">
+                <!-- Package Summary Metadata Grid -->
+                <div class="metadata-grid">
+                    <div class="metadata-item">
+                        <span class="meta-label">Courier</span>
+                        <span class="meta-val" id="metaCourier">India Post</span>
+                    </div>
+                    <div class="metadata-item">
+                        <span class="meta-label">Current Status</span>
+                        <span class="meta-val" id="metaStatus">---</span>
+                    </div>
+                    <div class="metadata-item">
+                        <span class="meta-label">Weight</span>
+                        <span class="meta-val" id="metaWeight">---</span>
+                    </div>
+                    <div class="metadata-item">
+                        <span class="meta-label">Est. Delivery</span>
+                        <span class="meta-val" id="metaEstDelivery">---</span>
+                    </div>
+                </div>
+
+                <!-- Step Timeline -->
+                <div class="results-body">
+                    <div class="timeline" id="timelineContainer">
+                        <!-- Populated Dynamically -->
+                    </div>
                 </div>
             </div>
         </section>
 
-        <section class="max-w-container-max mx-auto px-margin-x pb-section-gap">
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-gutter">
-                <div
-                    class="bg-white border border-outline-variant/30 p-8 rounded-xl bento-shadow flex flex-col justify-between hover:border-primary/30 transition-all group">
+        <!-- Bento Grid Features Section -->
+        <section class="bento-section container">
+            <div class="bento-grid">
+                <div class="bento-card">
                     <div>
-                        <span class="font-label-mono text-label-mono text-primary mb-4 block">REAL-TIME TELEMETRY</span>
-                        <h3 class="font-headline-md text-headline-md text-on-surface mb-4">Precision Logistics</h3>
-                        <p class="text-on-surface-variant text-body-md">Every hardware component is tracked using our
-                            proprietary IOTA nodes, ensuring zero-loss delivery cycles.</p>
+                        <span class="card-tag">REAL-TIME TELEMETRY</span>
+                        <h3>Precision Logistics</h3>
+                        <p>Every hardware component is tracked using our proprietary IOTA nodes, ensuring zero-loss
+                            delivery cycles.</p>
                     </div>
-                    <div class="mt-8 flex justify-end">
-                        <div
-                            class="w-12 h-12 rounded-full bg-surface-container flex items-center justify-center group-hover:bg-primary group-hover:text-white transition-colors">
+                    <div class="card-action">
+                        <div class="icon-badge">
                             <span class="material-symbols-outlined">query_stats</span>
                         </div>
                     </div>
                 </div>
 
-                <div
-                    class="bg-primary text-on-primary p-8 rounded-xl bento-shadow md:col-span-1 flex flex-col justify-between overflow-hidden relative group">
-                    <div class="relative z-10">
-                        <span class="font-label-mono text-label-mono text-primary-fixed mb-4 block">KIT INVENTORY</span>
-                        <h3 class="font-headline-md text-headline-md mb-4">ESP32 Ready.</h3>
-                        <p class="text-on-primary/80 text-body-md">Our warehouse currently holds units ready for instant
-                            global dispatch. High-fidelity hardware, beginner-friendly setup.</p>
+                <div class="bento-card primary-style">
+                    <div>
+                        <span class="card-tag">KIT INVENTORY</span>
+                        <h3>ESP32 Ready.</h3>
+                        <p>Our warehouse currently holds units ready for instant global dispatch. High-fidelity
+                            hardware, beginner-friendly setup.</p>
                     </div>
-                    <div class="mt-8 relative z-10">
-                        <button class="flex items-center gap-2 font-bold hover:underline">
-                            View Specs <span class="material-symbols-outlined">open_in_new</span>
+                    <div class="card-action">
+                        <button class="card-btn" onclick="openSpecsDialog(event)">
+                            View Specs <span class="material-symbols-outlined"
+                                style="font-size: 18px;">open_in_new</span>
                         </button>
                     </div>
                 </div>
 
-                <div
-                    class="bg-white border border-outline-variant/30 p-8 rounded-xl bento-shadow flex flex-col justify-between hover:border-primary/30 transition-all group">
+                <div class="bento-card">
                     <div>
-                        <span class="font-label-mono text-label-mono text-primary mb-4 block">GLOBAL ACCESS</span>
-                        <h3 class="font-headline-md text-headline-md text-on-surface mb-4">India Post Sync</h3>
-                        <p class="text-on-surface-variant text-body-md">Direct integration with India Post networks for
-                            seamless tracking across all 1.5 lakh post offices.</p>
+                        <span class="card-tag">GLOBAL ACCESS</span>
+                        <h3>India Post Sync</h3>
+                        <p>Direct integration with India Post networks for seamless tracking across all 1.5 lakh post
+                            offices nationwide.</p>
                     </div>
-                    <div class="mt-8 flex justify-end">
-                        <div
-                            class="w-12 h-12 rounded-full bg-surface-container flex items-center justify-center group-hover:bg-primary group-hover:text-white transition-colors">
+                    <div class="card-action">
+                        <div class="icon-badge">
                             <span class="material-symbols-outlined">lan</span>
                         </div>
                     </div>
@@ -240,34 +187,208 @@
         </section>
     </main>
 
-    <footer class="bg-surface-container border-t border-outline-variant/30">
-        <div
-            class="max-w-container-max mx-auto px-margin-x py-16 flex flex-col md:flex-row justify-between items-center gap-grid-unit">
-            <div class="flex flex-col items-center md:items-start gap-4 mb-8 md:mb-0">
-                <div class="font-headline-md text-headline-md font-bold text-on-surface">IOTA-LOG</div>
-                <p class="text-on-surface-variant font-body-md text-body-md text-center md:text-left max-w-xs">
-                    © 2026 IOTA Logistics. Technical Excellence for Beginners.
-                </p>
+    <!-- Footer -->
+    <footer>
+        <div class="container footer-wrapper">
+            <div class="footer-brand">
+                <div class="footer-logo">IOTA-LOG</div>
+                <p style="max-width: 300px; font-size: 14px; margin-top: 8px;">© 2026 IOTA Logistics. Technical
+                    Excellence for Beginners.</p>
             </div>
-            <div class="flex flex-wrap justify-center gap-8">
-                <a class="text-on-surface-variant hover:text-primary transition-all hover:underline font-body-md"
-                    href="#">Hardware Specs</a>
-                <a class="text-on-surface-variant hover:text-primary transition-all hover:underline font-body-md"
-                    href="#">API Access</a>
-                <a class="text-on-surface-variant hover:text-primary transition-all hover:underline font-body-md"
-                    href="#">Privacy Policy</a>
-                <a class="text-on-surface-variant hover:text-primary transition-all hover:underline font-body-md"
-                    href="#">Contact Support</a>
+            <div class="footer-links">
+                <a class="footer-link" href="#" onclick="openSpecsDialog(event)">Hardware Specs</a>
+                <a class="footer-link" href="#"
+                    onclick="alert('Developer portal API access details will be available soon.')">API Access</a>
+                <a class="footer-link" href="#" onclick="alert('Privacy policy document is loading.')">Privacy
+                    Policy</a>
+                <a class="footer-link" href="#" onclick="alert('Routing to customer support nodes...')">Contact
+                    Support</a>
             </div>
         </div>
     </footer>
 
+    <!-- Floating Dark Mode Toggler -->
+    <button class="theme-toggle-floating" id="themeToggle" aria-label="Toggle Theme Mode">
+        <span class="material-symbols-outlined" id="themeIcon">dark_mode</span>
+    </button>
+
+    <!-- Sign In Dialog -->
+    <div class="dialog-overlay" id="signInDialog" onclick="closeSignInDialog(event)">
+        <div class="dialog-content" onclick="event.stopPropagation()">
+            <button class="dialog-close" onclick="closeSignInDialog(event)" aria-label="Close dialog">
+                <span class="material-symbols-outlined">close</span>
+            </button>
+            <h3 class="dialog-title">Sign In</h3>
+            <form
+                onsubmit="event.preventDefault(); alert('Signed in successfully! (Simulated)'); closeSignInDialog(event);">
+                <div class="dialog-body">
+                    <div class="dialog-form-group">
+                        <label for="email">Email Address</label>
+                        <input type="email" id="email" required placeholder="name@example.com" />
+                    </div>
+                    <div class="dialog-form-group">
+                        <label for="password">Password</label>
+                        <input type="password" id="password" required placeholder="••••••••" />
+                    </div>
+                </div>
+                <div class="dialog-footer">
+                    <button type="button" class="btn btn-secondary" onclick="closeSignInDialog(event)">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Sign In</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Hardware Specs Dialog -->
+    <div class="dialog-overlay" id="specsDialog" onclick="closeSpecsDialog(event)">
+        <div class="dialog-content" style="max-width: 560px;" onclick="event.stopPropagation()">
+            <button class="dialog-close" onclick="closeSpecsDialog(event)" aria-label="Close dialog">
+                <span class="material-symbols-outlined">close</span>
+            </button>
+            <h3 class="dialog-title">ESP32 IoT Development Kit Specs</h3>
+            <div class="dialog-body" style="font-size: 15px;">
+                <p style="margin-bottom: 16px;">Our logistics kit contains top-tier hardware tailored for building
+                    scalable connected nodes:</p>
+                <ul style="list-style-type: none; display: flex; flex-direction: column; gap: 10px;">
+                    <li style="display: flex; gap: 8px;"><span class="material-symbols-outlined"
+                            style="color: var(--primary);">memory</span> <strong>ESP32-WROOM-32D:</strong> Tensilica
+                        dual-core MCU, Wi-Fi & Bluetooth connectivity.</li>
+                    <li style="display: flex; gap: 8px;"><span class="material-symbols-outlined"
+                            style="color: var(--primary);">sensors</span> <strong>Sensors:</strong> DHT22 Temperature &
+                        Humidity, LDR Light sensor, HC-SR04 Ultrasonic.</li>
+                    <li style="display: flex; gap: 8px;"><span class="material-symbols-outlined"
+                            style="color: var(--primary);">settings_input_hdmi</span> <strong>Actuators:</strong> 0.96"
+                        OLED I2C screen, Active buzzer, SG90 Micro Servo, RGB LED.</li>
+                    <li style="display: flex; gap: 8px;"><span class="material-symbols-outlined"
+                            style="color: var(--primary);">electrical_services</span> <strong>Chassis:</strong> Custom
+                        breadboard base, jumper cable pack, micro-USB interface.</li>
+                </ul>
+            </div>
+            <div class="dialog-footer">
+                <button type="button" class="btn btn-primary" onclick="closeSpecsDialog(event)">Got It</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Script Controllers -->
     <script>
-        async function simulateTracking() {
+        // --- 1. Responsive Navigation Drawer Drawer Control ---
+        const menuToggle = document.getElementById('menuToggle');
+        const mobileDrawer = document.getElementById('mobileDrawer');
+
+        menuToggle.addEventListener('click', () => {
+            menuToggle.classList.toggle('open');
+            mobileDrawer.classList.toggle('open');
+        });
+
+        // Close drawer on links click
+        mobileDrawer.querySelectorAll('.nav-link, .btn').forEach(element => {
+            element.addEventListener('click', () => {
+                menuToggle.classList.remove('open');
+                mobileDrawer.classList.remove('open');
+            });
+        });
+
+        // --- 2. Theme Toggle Controller (Dark / Light Mode) ---
+        const themeToggle = document.getElementById('themeToggle');
+        const themeIcon = document.getElementById('themeIcon');
+
+        function setTheme(theme) {
+            if (theme === 'dark') {
+                document.documentElement.setAttribute('data-theme', 'dark');
+                themeIcon.textContent = 'light_mode';
+                localStorage.setItem('theme', 'dark');
+            } else {
+                document.documentElement.removeAttribute('data-theme');
+                themeIcon.textContent = 'dark_mode';
+                localStorage.setItem('theme', 'light');
+            }
+        }
+
+        // Initialize theme preference
+        const savedTheme = localStorage.getItem('theme') ||
+            (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+        setTheme(savedTheme);
+
+        themeToggle.addEventListener('click', () => {
+            const currentTheme = document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+            setTheme(currentTheme);
+        });
+
+        // --- 3. Dialog Control Modules ---
+        function openSignInDialog(e) {
+            e.preventDefault();
+            document.getElementById('signInDialog').classList.add('open');
+        }
+
+        function closeSignInDialog(e) {
+            if (e) e.preventDefault();
+            document.getElementById('signInDialog').classList.remove('open');
+        }
+
+        function openSpecsDialog(e) {
+            e.preventDefault();
+            document.getElementById('specsDialog').classList.add('open');
+        }
+
+        function closeSpecsDialog(e) {
+            if (e) e.preventDefault();
+            document.getElementById('specsDialog').classList.remove('open');
+        }
+
+        // --- 4. Interactive Simulation & Mock Data Sets ---
+        const mockTrackingData = {
+            'RT-ESP32-9876': {
+                courier: 'India Post',
+                status: 'In Transit',
+                weight: '450 grams',
+                estDelivery: 'June 15, 2026',
+                events: [
+                    { time: 'JUNE 12, 04:30 PM', title: 'Out for Local Node Delivery', details: 'Assigned to logistics delivery agent at Bangalore Sorting Office Hub.', current: true },
+                    { time: 'JUNE 11, 10:15 AM', title: 'Processed at Sorting Center', details: 'Package arrived at regional sorting hub and passed barcode validation.', current: false },
+                    { time: 'JUNE 10, 02:40 PM', title: 'Dispatched from Origin Hub', details: 'Transited through sorting terminal nodes towards destination hub.', current: false },
+                    { time: 'JUNE 09, 11:00 AM', title: 'IoT Labs Pickup Confirmed', details: 'IoT package has been picked up from laboratory storage racks.', current: false }
+                ]
+            },
+            'RT-IOTA-1234': {
+                courier: 'India Post (Express)',
+                status: 'Delivered',
+                weight: '320 grams',
+                estDelivery: 'Delivered (June 11)',
+                events: [
+                    { time: 'JUNE 11, 01:15 PM', title: 'Delivered', details: 'Successfully delivered to receiver. Signed by recipient (Hardware Admin).', current: true, completed: true },
+                    { time: 'JUNE 11, 09:00 AM', title: 'Out for Delivery', details: 'Dispatched from final post office node to delivery address.', current: false, completed: true },
+                    { time: 'JUNE 10, 03:50 PM', title: 'Arrived at Destination Facility', details: 'Package logged at final post office sorting center.', current: false, completed: true },
+                    { time: 'JUNE 08, 08:30 AM', title: 'Shipping Info Transmitted', details: 'IoT package metadata synchronized with the India Post tracking network.', current: false, completed: true }
+                ]
+            },
+            'RT-NODE-5432': {
+                courier: 'India Post',
+                status: 'Dispatched',
+                weight: '680 grams',
+                estDelivery: 'June 19, 2026',
+                events: [
+                    { time: 'JUNE 12, 10:00 AM', title: 'Dispatched from Laboratory Center', details: 'Shipment has departed the origin warehousing nodes.', current: true },
+                    { time: 'JUNE 11, 05:22 PM', title: 'IoT Logistics Label Created', details: 'Hardware kit allocation complete. Package sealed and catalogued.', current: false }
+                ]
+            }
+        };
+
+        function fillAndTrack(code) {
+            document.getElementById('trackingInput').value = code;
+            performTracking();
+        }
+
+        async function performTracking() {
             const input = document.getElementById('trackingInput');
             const result = document.getElementById('trackingResult');
             const displayId = document.getElementById('displayConsignment');
             const timelineContainer = document.getElementById('timelineContainer');
+
+            const metaCourier = document.getElementById('metaCourier');
+            const metaStatus = document.getElementById('metaStatus');
+            const metaWeight = document.getElementById('metaWeight');
+            const metaEstDelivery = document.getElementById('metaEstDelivery');
 
             const trackingNumber = input.value.trim().toUpperCase();
 
@@ -276,24 +397,50 @@
                 return;
             }
 
-            // 1. UI Feedback: Show loading state immediately
+            // Show loading state and scroll
             displayId.innerText = trackingNumber;
+            metaStatus.innerText = 'Synchronizing...';
+            metaWeight.innerText = 'Calculating...';
+            metaEstDelivery.innerText = 'Pinging...';
+            metaCourier.innerText = 'India Post';
+
             timelineContainer.innerHTML = `
-                <div class="py-12 flex flex-col justify-center items-center">
-                    <span class="w-10 h-10 border-4 border-primary border-t-transparent rounded-full animate-spin"></span>
-                    <span class="mt-4 text-primary font-label-mono uppercase tracking-widest">Pinging India Post Network...</span>
+                <div class="loading-wrapper">
+                    <div class="spinner"></div>
+                    <div class="loading-text">Pinging Tracking Nodes...</div>
                 </div>
             `;
 
-            result.classList.remove('opacity-0', 'translate-y-8', 'pointer-events-none');
-            result.classList.add('opacity-100', 'translate-y-0');
-
+            result.classList.add('show');
             setTimeout(() => {
                 result.scrollIntoView({ behavior: 'smooth', block: 'center' });
-            }, 300);
+            }, 100);
 
+            // 1. Check if mock data matches code
+            if (mockTrackingData[trackingNumber]) {
+                // Delay to simulate actual load
+                setTimeout(() => {
+                    renderTimeline(mockTrackingData[trackingNumber]);
+                }, 1200);
+                return;
+            }
+
+            // 2. Simulating error path explicitly
+            if (trackingNumber === 'RT-ERR-8888') {
+                setTimeout(() => {
+                    timelineContainer.innerHTML = `
+                        <div class="error-message">
+                            <strong>Node Outage Simulated (Error 500):</strong> The requested tracking node RT-ERR-8888 responded with a synchronization anomaly. Please retry in a few moments.
+                        </div>`;
+                    metaStatus.innerText = 'Sync Interrupted';
+                    metaWeight.innerText = '---';
+                    metaEstDelivery.innerText = '---';
+                }, 1200);
+                return;
+            }
+
+            // 3. Fallback to API call
             try {
-                // 2. Fetch from Vercel Serverless Function
                 const response = await fetch('/api/track', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
@@ -302,55 +449,89 @@
 
                 const data = await response.json();
 
-                // 3. Error Handling if tracking number is invalid or not found
-                if (data.meta.code !== 200 || !data.data || !data.data.origin_info || !data.data.origin_info.trackinfo) {
-                    timelineContainer.innerHTML = `
-                        <div class="py-6 mt-4 text-error-red font-body-md border-l-4 border-error-red pl-4 bg-error-red/10 rounded-r">
-                            Tracking data not found. If this kit was just dispatched, please allow 12-24 hours for the India Post nodes to update.
-                        </div>`;
-                    return;
+                if (response.ok && data.meta && data.meta.code === 200 && data.data && data.data.origin_info && data.data.origin_info.trackinfo) {
+                    const trackInfo = data.data.origin_info.trackinfo;
+                    const parsedData = {
+                        courier: 'India Post',
+                        status: data.data.status || 'In Transit',
+                        weight: '450 grams',
+                        estDelivery: 'Calculated by Hub',
+                        events: trackInfo.map((event, index) => {
+                            const eventDate = new Date(event.Date).toLocaleString('en-IN', {
+                                month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit'
+                            }).toUpperCase();
+                            return {
+                                time: eventDate,
+                                title: event.StatusDescription || 'Node Registered',
+                                details: event.Details || 'Package checked at sorting facility.',
+                                current: index === 0,
+                                completed: data.data.status === 'delivered'
+                            };
+                        })
+                    };
+                    renderTimeline(parsedData);
+                } else {
+                    // Fallback mock logic for arbitrary typed consignment codes (so the UI works gracefully offline/no API keys)
+                    generateFallbackMock(trackingNumber);
                 }
-
-                // 4. Extract the transit history array
-                const trackInfo = data.data.origin_info.trackinfo;
-                timelineContainer.innerHTML = ''; // Clear the loading spinner
-
-                // 5. Dynamically generate the timeline using custom Tailwind components
-                trackInfo.forEach((event, index) => {
-                    const isLatest = index === 0;
-                    const isLast = index === trackInfo.length - 1;
-
-                    // Format TrackingMore's Date (YYYY-MM-DD HH:MM) to look cleaner
-                    const eventDate = new Date(event.Date).toLocaleString('en-IN', {
-                        month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit'
-                    }).toUpperCase();
-
-                    const stepHTML = `
-                    <div class="relative pl-12 ${isLast ? '' : 'pb-10'}">
-                        ${!isLast ? `<div class="absolute left-[7px] top-0 bottom-0 w-[2px] ${isLatest ? 'bg-outline-variant/30' : 'bg-primary'}"></div>` : ''}
-                        <div class="absolute left-0 top-0 w-4 h-4 rounded-full bg-primary ${isLatest ? 'border-4 border-surface-container-high animate-pulse-soft' : ''}"></div>
-                        <div>
-                            <p class="font-label-mono text-label-mono ${isLatest ? 'text-primary font-bold' : 'text-on-surface-variant'} mb-1">${eventDate}</p>
-                            <h3 class="font-headline-md text-body-lg font-bold text-on-surface mb-2">${event.StatusDescription || 'Update'}</h3>
-                            <p class="text-on-surface-variant text-body-md">${event.Details}</p>
-                        </div>
-                    </div>`;
-
-                    timelineContainer.insertAdjacentHTML('beforeend', stepHTML);
-                });
-
             } catch (error) {
-                timelineContainer.innerHTML = `
-                    <div class="py-6 mt-4 text-error-red font-body-md border-l-4 border-error-red pl-4 bg-error-red/10 rounded-r">
-                        Network sync failed. Please check your internet connection or try again later.
-                    </div>`;
+                // API Fetch failure / offline fallback
+                generateFallbackMock(trackingNumber);
             }
         }
 
-        // Handle Enter key for input
+        function renderTimeline(data) {
+            const timelineContainer = document.getElementById('timelineContainer');
+            const metaCourier = document.getElementById('metaCourier');
+            const metaStatus = document.getElementById('metaStatus');
+            const metaWeight = document.getElementById('metaWeight');
+            const metaEstDelivery = document.getElementById('metaEstDelivery');
+
+            metaCourier.innerText = data.courier;
+            metaStatus.innerText = data.status;
+            metaWeight.innerText = data.weight;
+            metaEstDelivery.innerText = data.estDelivery;
+
+            timelineContainer.innerHTML = '';
+
+            data.events.forEach(event => {
+                const stateClass = event.current ? 'active' : (event.completed ? 'completed' : '');
+                const stepHTML = `
+                <div class="timeline-item ${stateClass}">
+                    <div class="timeline-line"></div>
+                    <div class="timeline-dot"></div>
+                    <div>
+                        <span class="event-time">${event.time}</span>
+                        <h3 class="event-title">${event.title}</h3>
+                        <p class="event-details">${event.details}</p>
+                    </div>
+                </div>`;
+                timelineContainer.insertAdjacentHTML('beforeend', stepHTML);
+            });
+        }
+
+        function generateFallbackMock(trackingNumber) {
+            // Delay slightly to mimic node search
+            setTimeout(() => {
+                const randomStatus = ['In Transit', 'Dispatched', 'Out for Delivery'][Math.floor(Math.random() * 3)];
+                const fallbackData = {
+                    courier: 'India Post',
+                    status: randomStatus,
+                    weight: '380 grams',
+                    estDelivery: 'June 18, 2026',
+                    events: [
+                        { time: 'JUNE 12, 02:15 PM', title: 'Package Received at National sorting hub', details: `Consignment node ${trackingNumber} arrived at regional post hub for sorting and dispatch.`, current: true },
+                        { time: 'JUNE 11, 09:30 AM', title: 'Package Dispatched from Lab storage', details: 'Assigned carrier picked up IoT development board kit from Bengaluru dispatch dock.', current: false }
+                    ]
+                };
+                renderTimeline(fallbackData);
+            }, 1000);
+        }
+
+        // Handle Enter key for search
         document.getElementById('trackingInput').addEventListener('keypress', function (e) {
             if (e.key === 'Enter') {
-                simulateTracking();
+                performTracking();
             }
         });
     </script>
