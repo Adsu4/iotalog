@@ -8,7 +8,7 @@
     <meta content="Technical Excellence. Track your IoT hardware kits with track BFIOT." name="description" />
 
     <!-- Style Sheet & Fonts -->
-    <link href="index.css?v=1.0.4" rel="stylesheet" />
+    <link href="index.css?v=2.0.0" rel="stylesheet" />
     <link
         href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;700;800&family=JetBrains+Mono:wght@500&family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap"
         rel="stylesheet" />
@@ -36,14 +36,10 @@
         <div class="grid-pattern"
             style="position: absolute; inset: 0; z-index: -10; opacity: 0.6; pointer-events: none;"></div>
 
-        <img alt=""
-            style="position: absolute; bottom: -100px; left: -100px; opacity: 0.05; filter: blur(6px); pointer-events: none; z-index: -10; rotate: -15deg; max-width: 450px;"
-            src="https://lh3.googleusercontent.com/aida/AP1WRLt_njWJPNANqsuG-ToivanObk6N4dkonuJvoytI8zxBJ_K4py168hH9D2S2-jZpPyl-i5PEbCfFmZqri8CdUqDiebzW6tvbU31kdIQGbVzklu4FvgB_8H_bUXP_Ko3BtUAsM5ZIVQ2tDx7RdbJWGw_w9VO1l68DTtA5mejEzbeH0BD8lD-G1eEEF7ktbWedVE_PoMu3VrxZv_N7dwT5XMCw_w0Z8x94PstV5Wp386jZ_VMa7LMh0g_6o80" />
-
         <!-- Dashboard Wrapper -->
         <div class="dashboard-container" id="dashboardContainer">
 
-            <!-- Hero Header Info -->
+            <!-- Hero Header -->
             <section class="hero">
                 <div class="live-badge">
                     <span class="dot"></span>
@@ -62,7 +58,7 @@
                         <span class="material-symbols-outlined">local_shipping</span>
                     </div>
                     <input class="search-input" id="trackingInput"
-                        placeholder="Enter Consignment Number (e.g., BF-ESP32-9876)" type="text" />
+                        placeholder="Enter Consignment Number (e.g., CL650082919IN)" type="text" />
                     <button class="btn btn-primary search-button" onclick="performTracking()">
                         Track Now
                         <span class="material-symbols-outlined" style="font-size: 18px;">arrow_forward</span>
@@ -70,11 +66,10 @@
                 </div>
             </div>
 
-
-
-            <!-- Scrollable Timeline Results Card -->
+            <!-- Results Card -->
             <section class="results-section" id="trackingResult">
                 <div class="results-card">
+                    <!-- Header row -->
                     <div class="results-header">
                         <div class="consignment-info">
                             <span class="meta-label">Consignment ID</span>
@@ -86,14 +81,14 @@
                         </div>
                     </div>
 
-                    <!-- Cargo Info Details -->
-                    <div class="metadata-grid" style="grid-template-columns: repeat(2, 1fr);">
+                    <!-- Metadata: 4 clean fields -->
+                    <div class="metadata-grid">
                         <div class="metadata-item">
                             <span class="meta-label">Courier</span>
                             <span class="meta-val" id="metaCourier">India Post</span>
                         </div>
                         <div class="metadata-item">
-                            <span class="meta-label">Current Status</span>
+                            <span class="meta-label">Status</span>
                             <span class="meta-val" id="metaStatus">---</span>
                         </div>
                         <div class="metadata-item">
@@ -104,73 +99,72 @@
                             <span class="meta-label">Booked On</span>
                             <span class="meta-val" id="metaBookedOn">---</span>
                         </div>
-                        <div class="metadata-item">
-                            <span class="meta-label">Destination</span>
-                            <span class="meta-val" id="metaDestination">---</span>
-                        </div>
-                        <div class="metadata-item">
-                            <span class="meta-label">Pincodes</span>
-                            <span class="meta-val" id="metaPincodes">---</span>
+                    </div>
+
+                    <!-- Gamified Horizontal Track -->
+                    <div class="gamified-track-wrapper" id="gamifiedTrack" style="display: none;">
+                        <div class="gamified-track-container">
+                            <div class="base-circuit-path">
+                                <div class="dashed-pattern"></div>
+                            </div>
+                            <div class="progress-fill" id="progressFill"></div>
+
+                            <div class="nodes-container">
+                                <!-- Node 1: Booked -->
+                                <div class="node-point-wrapper">
+                                    <div class="node-point" id="node1">
+                                        <span class="material-symbols-outlined">check</span>
+                                    </div>
+                                    <div class="node-label">
+                                        <p class="node-level">Step 1</p>
+                                        <p class="node-name">Booked</p>
+                                    </div>
+                                </div>
+                                <!-- Node 2: Processed -->
+                                <div class="node-point-wrapper">
+                                    <div class="node-point" id="node2">
+                                        <span class="material-symbols-outlined">check</span>
+                                    </div>
+                                    <div class="node-label">
+                                        <p class="node-level">Step 2</p>
+                                        <p class="node-name">Processed</p>
+                                    </div>
+                                </div>
+                                <!-- Node 3: In Transit -->
+                                <div class="node-point-wrapper">
+                                    <div class="node-point" id="node3">
+                                        <span class="material-symbols-outlined">check</span>
+                                    </div>
+                                    <div class="node-label">
+                                        <p class="node-level">Step 3</p>
+                                        <p class="node-name">In Transit</p>
+                                    </div>
+                                </div>
+                                <!-- Node 4: Delivered -->
+                                <div class="node-point-wrapper">
+                                    <div class="node-point" id="node4">
+                                        <span class="material-symbols-outlined">check</span>
+                                    </div>
+                                    <div class="node-label">
+                                        <p class="node-level">Step 4</p>
+                                        <p class="node-name">Delivered</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Moving Truck Payload -->
+                            <div class="delivery-payload" id="deliveryPayload">
+                                <div class="payload-icon-wrapper">
+                                    <div class="payload-glow"></div>
+                                    <div class="payload-box" id="payloadBox">
+                                        <span class="material-symbols-outlined">local_shipping</span>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
 
-                    <!-- Gamified Track -->
-                    <div class="gamified-track-container" id="gamifiedTrack" style="display: none;">
-                        <div class="base-circuit-path">
-                            <div class="dashed-pattern"></div>
-                        </div>
-                        <div class="progress-fill" id="progressFill"></div>
-                        
-                        <div class="nodes-container">
-                            <div class="node-point-wrapper">
-                                <div class="node-point" id="node1">
-                                    <span class="material-symbols-outlined" style="font-size: 14px; color: white; opacity: 0; transition: opacity 0.3s;">check</span>
-                                </div>
-                                <div class="node-label">
-                                    <p>Level 1</p>
-                                    <p>Booked</p>
-                                </div>
-                            </div>
-                            <div class="node-point-wrapper">
-                                <div class="node-point" id="node2">
-                                    <span class="material-symbols-outlined" style="font-size: 14px; color: white; opacity: 0; transition: opacity 0.3s;">check</span>
-                                </div>
-                                <div class="node-label">
-                                    <p>Level 2</p>
-                                    <p>Processed</p>
-                                </div>
-                            </div>
-                            <div class="node-point-wrapper">
-                                <div class="node-point" id="node3">
-                                    <span class="material-symbols-outlined" style="font-size: 14px; color: white; opacity: 0; transition: opacity 0.3s;">check</span>
-                                </div>
-                                <div class="node-label">
-                                    <p>Level 3</p>
-                                    <p>In Transit</p>
-                                </div>
-                            </div>
-                            <div class="node-point-wrapper">
-                                <div class="node-point" id="node4">
-                                    <span class="material-symbols-outlined" style="font-size: 14px; color: white; opacity: 0; transition: opacity 0.3s;">check</span>
-                                </div>
-                                <div class="node-label">
-                                    <p>Level 4</p>
-                                    <p>Delivered</p>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="delivery-payload" id="deliveryPayload">
-                            <div class="payload-icon-wrapper">
-                                <div class="payload-glow"></div>
-                                <div class="payload-box">
-                                    <span class="material-symbols-outlined">local_shipping</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Scrollable timeline step list -->
+                    <!-- Scrollable Event Timeline -->
                     <div class="results-body">
                         <div class="timeline" id="timelineContainer">
                             <!-- Populated dynamically -->
@@ -186,9 +180,9 @@
         </div>
     </main>
 
-    <!-- UI Controllers -->
+    <!-- JavaScript -->
     <script>
-        // --- 1. Light & Dark Themes ---
+        // ─── Theme Toggle ───
         const themeToggle = document.getElementById('themeToggle');
         const themeIcon = document.getElementById('themeIcon');
 
@@ -204,16 +198,14 @@
             }
         }
 
-        const savedTheme = localStorage.getItem('theme') || 'light';
-        setTheme(savedTheme);
+        setTheme(localStorage.getItem('theme') || 'light');
 
         themeToggle.addEventListener('click', () => {
-            const currentTheme = document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
-            setTheme(currentTheme);
+            const next = document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+            setTheme(next);
         });
 
-
-
+        // ─── Reset ───
         function resetTracking() {
             document.getElementById('trackingInput').value = '';
             document.getElementById('dashboardContainer').classList.remove('results-loaded');
@@ -221,6 +213,7 @@
             document.getElementById('gamifiedTrack').style.display = 'none';
         }
 
+        // ─── Main Tracking Logic ───
         async function performTracking() {
             const input = document.getElementById('trackingInput');
             const result = document.getElementById('trackingResult');
@@ -228,31 +221,20 @@
             const displayId = document.getElementById('displayConsignment');
             const timelineContainer = document.getElementById('timelineContainer');
 
-            const metaCourier = document.getElementById('metaCourier');
-            const metaStatus = document.getElementById('metaStatus');
-            const metaBookedAt = document.getElementById('metaBookedAt');
-            const metaBookedOn = document.getElementById('metaBookedOn');
-            const metaDestination = document.getElementById('metaDestination');
-            const metaPincodes = document.getElementById('metaPincodes');
-
             const trackingNumber = input.value.trim().toUpperCase();
-
-            if (trackingNumber === '') {
+            if (!trackingNumber) {
                 alert('Please enter a consignment number');
                 return;
             }
 
-            // Adjust screen state to show results container
             container.classList.add('results-loaded');
             result.classList.add('show');
 
             displayId.innerText = trackingNumber;
-            metaStatus.innerText = 'Synchronizing...';
-            metaBookedAt.innerText = 'Pinging...';
-            metaBookedOn.innerText = 'Pinging...';
-            metaDestination.innerText = 'Pinging...';
-            metaPincodes.innerText = 'Pinging...';
-            metaCourier.innerText = 'India Post';
+            document.getElementById('metaStatus').innerText = 'Synchronizing...';
+            document.getElementById('metaBookedAt').innerText = '—';
+            document.getElementById('metaBookedOn').innerText = '—';
+            document.getElementById('metaCourier').innerText = 'India Post';
 
             timelineContainer.innerHTML = `
                 <div class="loading-wrapper">
@@ -261,7 +243,6 @@
                 </div>
             `;
 
-            // Call Server API
             try {
                 const response = await fetch('/api/track', {
                     method: 'POST',
@@ -273,38 +254,38 @@
 
                 if (data.meta && data.meta.code === 200 && data.data && data.data.length > 0) {
                     const trackInfo = data.data[0].origin_info?.trackinfo || [];
-                    
+
                     if (!trackInfo || trackInfo.length === 0) {
-                        showError("Tracking data pending. Please allow 12 hours for India Post to sync.");
+                        showError("Tracking registered. India Post takes up to 12 hours to sync events.");
                         return;
                     }
 
                     const rawStatus = data.data[0].status || 'transit';
                     const formattedStatus = rawStatus.charAt(0).toUpperCase() + rawStatus.slice(1);
 
-                    // Extract Booking Data from the oldest event (last in array)
+                    // Extract booking info from oldest event
                     const oldestEvent = trackInfo[trackInfo.length - 1];
-                    let bookedAt = oldestEvent?.location || 'Unknown';
-                    let bookedOn = 'Unknown';
+                    let bookedAt = oldestEvent?.location || '—';
+                    let bookedOn = '—';
                     if (oldestEvent?.checkpoint_date) {
-                        const dateStr = oldestEvent.checkpoint_date.replace(' ', 'T');
-                        bookedOn = new Date(dateStr).toLocaleString('en-IN', {
-                            month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit'
-                        }).toUpperCase();
+                        const d = new Date(oldestEvent.checkpoint_date.replace(' ', 'T'));
+                        bookedOn = d.toLocaleString('en-IN', {
+                            day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit'
+                        });
                     }
 
                     const parsedData = {
                         courier: 'India Post',
                         status: formattedStatus,
-                        bookedAt: bookedAt,
-                        bookedOn: bookedOn,
-                        destination: 'Auto-Detecting',
-                        pincodes: 'Embedded in Timeline',
+                        bookedAt,
+                        bookedOn,
                         events: trackInfo.map((event, index) => {
                             const dateStr = event.checkpoint_date ? event.checkpoint_date.replace(' ', 'T') : '';
-                            const eventDate = dateStr ? new Date(dateStr).toLocaleString('en-IN', {
-                                month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit'
-                            }).toUpperCase() : 'Unknown';
+                            const eventDate = dateStr
+                                ? new Date(dateStr).toLocaleString('en-IN', {
+                                    day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit'
+                                })
+                                : '—';
                             return {
                                 time: eventDate,
                                 title: event.tracking_detail || 'Update Processed',
@@ -316,78 +297,91 @@
                     };
                     renderTimeline(parsedData);
                 } else {
-                    const errorMsg = data.meta?.message || data.error || "Tracking data not found. Please check your tracking number.";
-                    showError(errorMsg);
+                    const errorMsg = data.meta?.message || data.error || "Tracking data not found.";
+                    if (errorMsg.toLowerCase().includes('success')) {
+                        showError("Tracking registered. India Post takes up to 12 hours to sync events.");
+                    } else {
+                        showError(errorMsg);
+                    }
                 }
             } catch (error) {
-                showError('Network sync failed. Please check your internet connection or try again later.');
+                showError('Network sync failed. Please check your connection.');
             }
         }
 
+        // ─── Render Results ───
         function renderTimeline(data) {
             const timelineContainer = document.getElementById('timelineContainer');
+
             document.getElementById('metaCourier').innerText = data.courier;
             document.getElementById('metaStatus').innerText = data.status;
             document.getElementById('metaBookedAt').innerText = data.bookedAt;
             document.getElementById('metaBookedOn').innerText = data.bookedOn;
-            document.getElementById('metaDestination').innerText = data.destination;
-            document.getElementById('metaPincodes').innerText = data.pincodes;
 
             timelineContainer.innerHTML = '';
 
-            // --- Gamified Animation Logic ---
+            // ─── Gamified Track Animation ───
             const gamifiedTrack = document.getElementById('gamifiedTrack');
             const progressFill = document.getElementById('progressFill');
             const deliveryPayload = document.getElementById('deliveryPayload');
-            
-            gamifiedTrack.style.display = 'block';
-            
-            // Reset track state
-            progressFill.style.width = '0%';
-            deliveryPayload.style.opacity = '0';
-            deliveryPayload.style.left = '20px';
-            for (let i = 1; i <= 4; i++) {
-                document.getElementById(`node${i}`).classList.remove('node-active');
-            }
-            
-            let targetNode = 1;
-            let targetPercentage = '0%'; 
-            
-            const s = data.status.toLowerCase();
-            if (s.includes('delivered')) {
-                targetNode = 4;
-                targetPercentage = '100%';
-            } else if (s.includes('transit') || s.includes('pickup')) {
-                targetNode = 3;
-                targetPercentage = '66%';
-            } else if (s.includes('pending') || s.includes('notfound')) {
-                targetNode = 1;
-                targetPercentage = '0%';
-            } else {
-                targetNode = 2; // Processed
-                targetPercentage = '33%';
-            }
-            
-            setTimeout(() => {
-                progressFill.style.width = targetPercentage;
-                deliveryPayload.style.opacity = '1';
-                
-                requestAnimationFrame(() => {
-                    deliveryPayload.style.left = `calc(20px + ${targetPercentage} - 16px)`;
-                });
-                
-                for(let i = 1; i <= targetNode; i++) {
-                    setTimeout(() => {
-                        document.getElementById(`node${i}`).classList.add('node-active');
-                    }, i * 400);
-                }
-            }, 300);
-            // --- End Gamified Logic ---
+            const payloadBox = document.getElementById('payloadBox');
 
-            data.events.forEach(event => {
+            gamifiedTrack.style.display = 'block';
+
+            // Reset all nodes
+            progressFill.style.width = '0';
+            deliveryPayload.style.opacity = '0';
+            deliveryPayload.style.left = '12px';
+            payloadBox.classList.remove('delivered');
+            for (let i = 1; i <= 4; i++) {
+                const node = document.getElementById(`node${i}`);
+                node.classList.remove('node-active', 'node-current', 'node-delivered');
+            }
+
+            // Determine target node from status
+            let targetNode = 2;
+            const s = data.status.toLowerCase();
+            if (s.includes('delivered')) targetNode = 4;
+            else if (s.includes('transit') || s.includes('pickup')) targetNode = 3;
+            else if (s.includes('pending') || s.includes('notfound')) targetNode = 1;
+
+            const isDelivered = targetNode === 4;
+            const percentages = { 1: 0, 2: 33, 3: 66, 4: 100 };
+            const pct = percentages[targetNode];
+
+            // Animate after a beat
+            setTimeout(() => {
+                progressFill.style.width = pct + '%';
+                deliveryPayload.style.opacity = '1';
+
+                requestAnimationFrame(() => {
+                    deliveryPayload.style.left = `calc(12px + ${pct}% - 18px)`;
+                });
+
+                if (isDelivered) {
+                    payloadBox.classList.add('delivered');
+                    progressFill.style.background = `linear-gradient(90deg, var(--secondary), var(--success))`;
+                    progressFill.style.boxShadow = `0 0 12px rgba(var(--success-rgb), 0.4)`;
+                }
+
+                // Activate nodes sequentially
+                for (let i = 1; i <= targetNode; i++) {
+                    setTimeout(() => {
+                        const node = document.getElementById(`node${i}`);
+                        if (i < targetNode) {
+                            node.classList.add(isDelivered ? 'node-delivered' : 'node-active');
+                        } else if (i === targetNode) {
+                            node.classList.add(isDelivered ? 'node-delivered' : 'node-current');
+                        }
+                    }, i * 350);
+                }
+            }, 200);
+
+            // ─── Render vertical timeline events ───
+            data.events.forEach((event, idx) => {
                 const stateClass = event.current ? 'active' : (event.completed ? 'completed' : '');
                 const stepHTML = `
-                <div class="timeline-item ${stateClass}">
+                <div class="timeline-item ${stateClass}" style="animation-delay: ${idx * 60}ms">
                     <div class="timeline-line"></div>
                     <div class="timeline-dot"></div>
                     <div>
@@ -400,26 +394,23 @@
             });
         }
 
+        // ─── Error Display ───
         function showError(message) {
             const timelineContainer = document.getElementById('timelineContainer');
             document.getElementById('gamifiedTrack').style.display = 'none';
-            
+
             timelineContainer.innerHTML = `
-                <div class="error-message" style="margin-top: 10px;">
+                <div class="error-message">
                     <strong>Notice:</strong> ${message}
                 </div>`;
-            document.getElementById('metaStatus').innerText = 'Sync Interrupted';
-            document.getElementById('metaBookedAt').innerText = '---';
-            document.getElementById('metaBookedOn').innerText = '---';
-            document.getElementById('metaDestination').innerText = '---';
-            document.getElementById('metaPincodes').innerText = '---';
+            document.getElementById('metaStatus').innerText = 'Pending';
+            document.getElementById('metaBookedAt').innerText = '—';
+            document.getElementById('metaBookedOn').innerText = '—';
         }
 
-        // Handle Enter key for search input
+        // Enter key support
         document.getElementById('trackingInput').addEventListener('keypress', function (e) {
-            if (e.key === 'Enter') {
-                performTracking();
-            }
+            if (e.key === 'Enter') performTracking();
         });
     </script>
 </body>
