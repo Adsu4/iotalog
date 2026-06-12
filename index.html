@@ -8,7 +8,7 @@
     <meta content="Technical Excellence. Track your IoT hardware kits with track BFIOT." name="description" />
 
     <!-- Style Sheet & Fonts -->
-    <link href="index.css?v=1.0.3" rel="stylesheet" />
+    <link href="index.css?v=1.0.4" rel="stylesheet" />
     <link
         href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;700;800&family=JetBrains+Mono:wght@500&family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap"
         rel="stylesheet" />
@@ -21,8 +21,7 @@
     <header>
         <div class="header-wrapper">
             <div class="logo" onclick="resetTracking()">
-                track BFIOT
-                <span class="tag">IoT</span>
+                <img src="logo.png" alt="track BFIOT" style="height: 38px; display: block; filter: var(--logo-filter); border-radius: 4px;" id="logoImg" />
             </div>
             <div class="header-actions">
                 <button class="theme-toggle-btn" id="themeToggle" aria-label="Toggle Theme Mode">
@@ -148,8 +147,7 @@
             }
         }
 
-        const savedTheme = localStorage.getItem('theme') ||
-            (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+        const savedTheme = localStorage.getItem('theme') || 'light';
         setTheme(savedTheme);
 
         themeToggle.addEventListener('click', () => {

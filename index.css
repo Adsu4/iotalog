@@ -48,6 +48,7 @@
     --shadow-sm: 0 2px 8px rgba(11, 0, 107, 0.04);
     --shadow-md: 0 8px 30px rgba(11, 0, 107, 0.06);
     --shadow-lg: 0 16px 40px rgba(11, 0, 107, 0.1);
+    --logo-filter: none;
 }
 
 /* Dark Theme Overrides */
@@ -77,6 +78,7 @@
     --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.2);
     --shadow-md: 0 8px 30px rgba(0, 0, 0, 0.3);
     --shadow-lg: 0 16px 40px rgba(0, 0, 0, 0.4);
+    --logo-filter: invert(0.92) hue-rotate(180deg) brightness(1.1) contrast(1.2);
 }
 
 html,
@@ -127,19 +129,28 @@ p {
 
 /* Header & Navigation */
 header {
-    background-color: rgba(250, 248, 255, 0.8);
+    position: fixed;
+    top: 16px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: calc(100% - 32px);
+    max-width: 720px;
+    background-color: rgba(250, 248, 255, 0.85);
     backdrop-filter: blur(12px);
     -webkit-backdrop-filter: blur(12px);
-    border-bottom: 1px solid var(--outline-variant);
-    height: 64px;
+    border: 1px solid var(--outline-variant);
+    border-radius: var(--radius-full);
+    box-shadow: var(--shadow-sm);
+    height: 56px;
     display: flex;
     align-items: center;
     flex-shrink: 0;
-    z-index: 50;
+    z-index: 100;
+    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 [data-theme="dark"] header {
-    background-color: rgba(11, 14, 23, 0.8);
+    background-color: rgba(18, 22, 36, 0.85);
 }
 
 .header-wrapper {
@@ -206,7 +217,7 @@ main {
     display: flex;
     flex-direction: column;
     position: relative;
-    padding: 16px 16px 36px 16px;
+    padding: 88px 16px 36px 16px;
     box-sizing: border-box;
     overflow: hidden;
 }
